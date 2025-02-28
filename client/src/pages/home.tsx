@@ -28,7 +28,7 @@ export default function Home() {
             <Coffee className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl font-black tracking-tighter bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 bg-clip-text text-transparent transform transition-transform hover:scale-105">
-            BrewLogix
+            BaristaIQ
           </h1>
         </div>
         <div className="flex gap-4">
