@@ -43,6 +43,7 @@ export default function Profile() {
       roast: "Medium",
       grinderSetting: 8,
       grindAmount: 50,
+      grindAmountGrams: 18, // Added default value
       rating: undefined,
     },
   });
@@ -190,6 +191,31 @@ export default function Profile() {
                   </FormControl>
                   <div className="text-sm text-muted-foreground text-right">
                     Current setting: {field.value || 50}
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="grindAmountGrams"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Grind Amount (0-25g)</FormLabel>
+                <div className="space-y-2">
+                  <FormControl>
+                    <Slider
+                      min={0}
+                      max={25}
+                      step={0.5}
+                      value={[field.value || 18]}
+                      onValueChange={([value]) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <div className="text-sm text-muted-foreground text-right">
+                    Current amount: {field.value || 18}g
                   </div>
                 </div>
                 <FormMessage />

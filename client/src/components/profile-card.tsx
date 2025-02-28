@@ -68,6 +68,12 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
               <span>{profile.grindAmount}</span>
             </div>
           )}
+          {profile.grindAmountGrams && (
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Grind Amount</span>
+              <span>{profile.grindAmountGrams}g</span>
+            </div>
+          )}
           {profile.rating && (
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Rating</span>
