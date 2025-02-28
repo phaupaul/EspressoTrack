@@ -1,4 +1,4 @@
-import { profiles, type Profile, type InsertProfile } from "@shared/schema";
+import { profiles, type Profile, type InsertProfile, settings, type Settings, type InsertSettings } from "@shared/schema";
 
 export interface IStorage {
   getProfiles(): Promise<Profile[]>;
@@ -6,15 +6,27 @@ export interface IStorage {
   createProfile(profile: InsertProfile): Promise<Profile>;
   updateProfile(id: number, profile: Partial<InsertProfile>): Promise<Profile | undefined>;
   deleteProfile(id: number): Promise<void>;
+  getSettings(): Promise<Settings>;
+  updateSettings(settings: InsertSettings): Promise<Settings>;
 }
 
 export class MemStorage implements IStorage {
   private profiles: Map<number, Profile>;
   private currentId: number;
+  private settings: Settings;
 
   constructor() {
     this.profiles = new Map();
     this.currentId = 1;
+    this.settings = {
+      id: 1,
+      grinderSettingMin: 1,
+      grinderSettingMax: 16,
+      dialSettingMin: 1,
+      dialSettingMax: 100,
+      grindAmountMin: 0,
+      grindAmountMax: 25,
+    };
   }
 
   async getProfiles(): Promise<Profile[]> {
@@ -32,6 +44,7 @@ export class MemStorage implements IStorage {
       id,
       grinderSetting: insertProfile.grinderSetting ?? 8,
       grindAmount: insertProfile.grindAmount ?? 50,
+      grindAmountGrams: insertProfile.grindAmountGrams ?? 18,
       rating: insertProfile.rating ?? null
     };
     this.profiles.set(id, profile);
@@ -49,6 +62,15 @@ export class MemStorage implements IStorage {
 
   async deleteProfile(id: number): Promise<void> {
     this.profiles.delete(id);
+  }
+
+  async getSettings(): Promise<Settings> {
+    return this.settings;
+  }
+
+  async updateSettings(newSettings: InsertSettings): Promise<Settings> {
+    this.settings = { ...this.settings, ...newSettings };
+    return this.settings;
   }
 }
 

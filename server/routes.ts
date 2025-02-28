@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertProfileSchema } from "@shared/schema";
+import { insertProfileSchema, insertSettingsSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/profiles", async (_req, res) => {
@@ -38,6 +38,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete("/api/profiles/:id", async (req, res) => {
     await storage.deleteProfile(Number(req.params.id));
     res.status(204).send();
+  });
+
+  app.get("/api/settings", async (_req, res) => {
+    const settings = await storage.getSettings();
+    res.json(settings);
+  });
+
+  app.patch("/api/settings", async (req, res) => {
+    const result = insertSettingsSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ message: result.error.message });
+    }
+    const settings = await storage.updateSettings(result.data);
+    res.json(settings);
   });
 
   return createServer(app);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Settings } from "lucide-react";
 import ProfileCard from "@/components/profile-card";
 import SearchBar from "@/components/search-bar";
 import type { Profile } from "@shared/schema";
@@ -26,12 +26,20 @@ export default function Home() {
         <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">
           BrewLogix
         </h1>
-        <Link href="/profile/new">
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            New Profile
-          </Button>
-        </Link>
+        <div className="flex gap-4">
+          <Link href="/settings">
+            <Button variant="outline">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </Button>
+          </Link>
+          <Link href="/profile/new">
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              New Profile
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <SearchBar value={search} onChange={setSearch} className="mb-8" />

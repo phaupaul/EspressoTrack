@@ -43,7 +43,7 @@ export default function Profile() {
       roast: "Medium",
       grinderSetting: 8,
       grindAmount: 50,
-      grindAmountGrams: 18, // Added default value
+      grindAmountGrams: 18,
       rating: undefined,
     },
   });
@@ -97,9 +97,9 @@ export default function Profile() {
             name="brand"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Brand</FormLabel>
+                <FormLabel>Brand <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Enter coffee brand" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -111,9 +111,9 @@ export default function Profile() {
             name="product"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Product</FormLabel>
+                <FormLabel>Product <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Enter coffee product name" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,7 +125,7 @@ export default function Profile() {
             name="roast"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Roast</FormLabel>
+                <FormLabel>Roast <span className="text-red-500">*</span></FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
