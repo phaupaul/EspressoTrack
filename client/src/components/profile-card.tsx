@@ -64,7 +64,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           )}
           {profile.grindAmount && (
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Grinda Dial Setting</span>
+              <span className="text-muted-foreground">Grind Dial Setting</span>
               <span>{profile.grindAmount}</span>
             </div>
           )}

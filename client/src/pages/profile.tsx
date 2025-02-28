@@ -177,7 +177,7 @@ export default function Profile() {
             name="grindAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grinda Dial Setting (1-100)</FormLabel>
+                <FormLabel>Grind Dial Setting (1-100)</FormLabel>
                 <div className="space-y-2">
                   <FormControl>
                     <Slider
