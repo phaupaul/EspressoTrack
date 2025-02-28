@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import Rating from "@/components/rating";
+import LoadingSpinner from "@/components/loading-spinner";
 
 export default function Profile() {
   const { id } = useParams();
@@ -73,7 +74,11 @@ export default function Profile() {
   });
 
   if (id && isLoading) {
-    return <div className="container mx-auto p-8">Loading...</div>;
+    return (
+      <div className="container mx-auto flex justify-center items-center min-h-[400px]">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   const onSubmit = (data: typeof form.getValues) => {

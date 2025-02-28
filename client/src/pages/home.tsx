@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import ProfileCard from "@/components/profile-card";
 import SearchBar from "@/components/search-bar";
+import LoadingSpinner from "@/components/loading-spinner";
 import type { Profile } from "@shared/schema";
 
 export default function Home() {
@@ -37,10 +38,8 @@ export default function Home() {
       <SearchBar value={search} onChange={setSearch} className="mb-8" />
 
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-48 bg-muted animate-pulse rounded-lg" />
-          ))}
+        <div className="flex justify-center items-center min-h-[400px]">
+          <LoadingSpinner />
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
