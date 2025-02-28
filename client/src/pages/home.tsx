@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Settings } from "lucide-react";
+import { PlusCircle, Settings, Coffee } from "lucide-react";
 import ProfileCard from "@/components/profile-card";
 import SearchBar from "@/components/search-bar";
 import type { Profile } from "@shared/schema";
@@ -23,9 +23,14 @@ export default function Home() {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">
-          BrewLogix
-        </h1>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg shadow-lg">
+            <Coffee className="h-8 w-8 text-white" />
+          </div>
+          <h1 className="text-4xl font-black tracking-tighter bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 bg-clip-text text-transparent transform transition-transform hover:scale-105">
+            BrewLogix
+          </h1>
+        </div>
         <div className="flex gap-4">
           <Link href="/settings">
             <Button variant="outline">
