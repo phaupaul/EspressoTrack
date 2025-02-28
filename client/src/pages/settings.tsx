@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { insertSettingsSchema, type Settings } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter"; // Add this import
 import {
   Form,
   FormControl,
@@ -18,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Settings() {
   const { toast } = useToast();
+  const [, navigate] = useLocation(); // Add this line
 
   const { data: settings, isLoading } = useQuery<Settings>({
     queryKey: ["/api/settings"],
@@ -43,6 +45,7 @@ export default function Settings() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
       toast({ title: "Settings updated successfully" });
+      navigate("/"); // Navigate back to home after successful update
     },
   });
 
@@ -149,12 +152,21 @@ export default function Settings() {
                 />
               </div>
 
-              <Button
-                type="submit"
-                disabled={updateMutation.isPending}
-              >
-                Save Settings
-              </Button>
+              <div className="flex gap-4">
+                <Button
+                  type="submit"
+                  disabled={updateMutation.isPending}
+                >
+                  Save Settings
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => navigate("/")}
+                >
+                  Cancel
+                </Button>
+              </div>
             </form>
           </Form>
         </CardContent>
