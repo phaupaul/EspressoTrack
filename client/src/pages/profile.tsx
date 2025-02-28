@@ -43,7 +43,6 @@ export default function Profile() {
       roast: "Medium",
       grinderSetting: 8,
       grindAmount: 50,
-      shotLength: 30,
       rating: undefined,
     },
   });
@@ -154,15 +153,20 @@ export default function Profile() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Grinder Setting (1-16)</FormLabel>
-                <FormControl>
-                  <Slider
-                    min={1}
-                    max={16}
-                    step={1}
-                    value={[field.value || 8]}
-                    onValueChange={([value]) => field.onChange(value)}
-                  />
-                </FormControl>
+                <div className="space-y-2">
+                  <FormControl>
+                    <Slider
+                      min={1}
+                      max={16}
+                      step={1}
+                      value={[field.value || 8]}
+                      onValueChange={([value]) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <div className="text-sm text-muted-foreground text-right">
+                    Current setting: {field.value || 8}
+                  </div>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -174,34 +178,20 @@ export default function Profile() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Grind Amount (1-100)</FormLabel>
-                <FormControl>
-                  <Slider
-                    min={1}
-                    max={100}
-                    step={1}
-                    value={[field.value || 50]}
-                    onValueChange={([value]) => field.onChange(value)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="shotLength"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Shot Length (seconds)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min={1}
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
-                </FormControl>
+                <div className="space-y-2">
+                  <FormControl>
+                    <Slider
+                      min={1}
+                      max={100}
+                      step={1}
+                      value={[field.value || 50]}
+                      onValueChange={([value]) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <div className="text-sm text-muted-foreground text-right">
+                    Current amount: {field.value || 50}
+                  </div>
+                </div>
                 <FormMessage />
               </FormItem>
             )}

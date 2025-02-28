@@ -11,7 +11,6 @@ export const profiles = pgTable("profiles", {
   roast: text("roast", { enum: roastOptions }).notNull(),
   grinderSetting: integer("grinder_setting"),
   grindAmount: integer("grind_amount"),
-  shotLength: integer("shot_length"),
   rating: real("rating"),
 });
 
@@ -20,7 +19,6 @@ export const insertProfileSchema = createInsertSchema(profiles)
   .extend({
     grinderSetting: z.number().min(1).max(16).optional(),
     grindAmount: z.number().min(1).max(100).optional(),
-    shotLength: z.number().min(1).optional(),
     rating: z.number().min(1).max(5).optional(),
   });
 
