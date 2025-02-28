@@ -27,7 +27,13 @@ export class MemStorage implements IStorage {
 
   async createProfile(insertProfile: InsertProfile): Promise<Profile> {
     const id = this.currentId++;
-    const profile: Profile = { ...insertProfile, id };
+    const profile: Profile = {
+      ...insertProfile,
+      id,
+      grinderSetting: insertProfile.grinderSetting ?? 8,
+      grindAmount: insertProfile.grindAmount ?? 50,
+      rating: insertProfile.rating ?? null
+    };
     this.profiles.set(id, profile);
     return profile;
   }
@@ -35,7 +41,7 @@ export class MemStorage implements IStorage {
   async updateProfile(id: number, profile: Partial<InsertProfile>): Promise<Profile | undefined> {
     const existing = this.profiles.get(id);
     if (!existing) return undefined;
-    
+
     const updated = { ...existing, ...profile };
     this.profiles.set(id, updated);
     return updated;

@@ -9,16 +9,16 @@ export const profiles = pgTable("profiles", {
   brand: text("brand").notNull(),
   product: text("product").notNull(),
   roast: text("roast", { enum: roastOptions }).notNull(),
-  grinderSetting: integer("grinder_setting"),
-  grindAmount: integer("grind_amount"),
+  grinderSetting: integer("grinder_setting").notNull().default(8),
+  grindAmount: integer("grind_amount").notNull().default(50),
   rating: real("rating"),
 });
 
 export const insertProfileSchema = createInsertSchema(profiles)
   .omit({ id: true })
   .extend({
-    grinderSetting: z.number().min(1).max(16).optional(),
-    grindAmount: z.number().min(1).max(100).optional(),
+    grinderSetting: z.number().min(1).max(16),
+    grindAmount: z.number().min(1).max(100),
     rating: z.number().min(1).max(5).optional(),
   });
 
