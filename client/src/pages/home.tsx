@@ -44,27 +44,27 @@ export default function Home() {
           </h1>
         </div>
         <div className="flex flex-wrap gap-2 md:gap-4">
-          <Link href="/settings">
-            <Button variant="outline" size="sm" className="md:size-default">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </Button>
-          </Link>
           <Link href="/profile/new">
             <Button size="sm" className="md:size-default">
               <PlusCircle className="mr-2 h-4 w-4" />
               New Profile
             </Button>
           </Link>
+          <Link href="/settings">
+            <Button variant="outline" size="sm" className="md:size-default">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </Button>
+          </Link>
           <Button 
             variant="outline" 
-            size="sm" 
-            className="md:size-default"
+            size="icon"
+            className="h-8 w-8 md:h-9 md:w-9"
             onClick={handleLogout} 
             disabled={logoutMutation.isPending}
           >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
+            <LogOut className="h-4 w-4" />
+            <span className="sr-only">Sign Out</span>
           </Button>
         </div>
       </div>
