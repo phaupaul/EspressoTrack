@@ -1,11 +1,31 @@
-import { pgTable, text, serial, integer, real } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, real, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { relations } from "drizzle-orm";
 
 export const roastOptions = ["Light", "Medium", "Medium-Dark", "Dark"] as const;
 
+// User table for authentication
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull(),
+  password: text("password").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => {
+  return {
+    usernameIdx: uniqueIndex("username_idx").on(table.username),
+  };
+});
+
+// Add relations for users
+export const usersRelations = relations(users, ({ many }) => ({
+  profiles: many(profiles),
+}));
+
+// Update profiles table to include user relationship
 export const profiles = pgTable("profiles", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
   brand: text("brand").notNull(),
   product: text("product").notNull(),
   roast: text("roast", { enum: roastOptions }).notNull(),
@@ -13,7 +33,16 @@ export const profiles = pgTable("profiles", {
   grindAmount: integer("grind_amount").notNull().default(50),
   grindAmountGrams: integer("grind_amount_grams").notNull().default(18),
   rating: real("rating"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+// Add relations for profiles
+export const profilesRelations = relations(profiles, ({ one }) => ({
+  user: one(users, {
+    fields: [profiles.userId],
+    references: [users.id],
+  }),
+}));
 
 export const settings = pgTable("settings", {
   id: serial("id").primaryKey(),
@@ -25,8 +54,16 @@ export const settings = pgTable("settings", {
   grindAmountMax: integer("grind_amount_max").notNull().default(25),
 });
 
+// Schema for user registration/login
+export const insertUserSchema = createInsertSchema(users)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    username: z.string().min(3, "Username must be at least 3 characters"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+  });
+
 export const insertProfileSchema = createInsertSchema(profiles)
-  .omit({ id: true })
+  .omit({ id: true, userId: true, createdAt: true })
   .extend({
     grinderSetting: z.number().min(1).max(16),
     grindAmount: z.number().min(1).max(100),
@@ -36,6 +73,9 @@ export const insertProfileSchema = createInsertSchema(profiles)
 
 export const insertSettingsSchema = createInsertSchema(settings)
   .omit({ id: true });
+
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
 
 export type InsertProfile = z.infer<typeof insertProfileSchema>;
 export type Profile = typeof profiles.$inferSelect;
