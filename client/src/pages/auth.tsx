@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import { useForm } from "react-hook-form";
@@ -41,19 +41,24 @@ export default function AuthPage() {
     },
   });
 
-  // Redirect if already logged in
-  if (user) {
-    navigate("/");
-    return null;
-  }
+  useEffect(() => {
+    // Redirect if already logged in
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const onSubmit = async (data: FormData) => {
-    if (isLogin) {
-      await loginMutation.mutateAsync(data);
-    } else {
-      await registerMutation.mutateAsync(data);
+    try {
+      if (isLogin) {
+        await loginMutation.mutateAsync(data);
+      } else {
+        await registerMutation.mutateAsync(data);
+      }
+      navigate("/");
+    } catch (error) {
+      // Error is handled by the mutation's onError callback
     }
-    navigate("/");
   };
 
   return (
