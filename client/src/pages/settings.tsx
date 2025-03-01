@@ -68,6 +68,9 @@ export default function Settings() {
       await apiRequest("DELETE", "/api/user");
     },
     onSuccess: () => {
+      // Clear the user data from cache
+      queryClient.setQueryData(["/api/user"], null);
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       toast({ title: "Account deleted successfully" });
       navigate("/auth");
     },
