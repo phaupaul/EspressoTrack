@@ -36,13 +36,13 @@ export default function Home() {
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg shadow-lg">
-            <Coffee className="h-8 w-8 text-white" />
+            <div className="p-2 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg shadow-lg">
+              <Coffee className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-black tracking-tighter bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 bg-clip-text text-transparent transform transition-transform hover:scale-105">
+              EspressoTrack
+            </h1>
           </div>
-          <h1 className="text-4xl font-black tracking-tighter bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 bg-clip-text text-transparent transform transition-transform hover:scale-105">
-            CremaLogic
-          </h1>
-        </div>
         <div className="flex gap-4">
           <Link href="/settings">
             <Button variant="outline">

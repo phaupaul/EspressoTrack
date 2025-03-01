@@ -134,7 +134,7 @@ export default function AuthPage() {
       <div className="hidden md:flex flex-col items-center justify-center p-8 bg-gradient-to-br from-amber-600 to-amber-800 text-white">
         <div className="text-center">
           <Coffee className="h-16 w-16 mb-4 mx-auto" />
-          <h1 className="text-4xl font-black mb-4">CremaLogic</h1>
+          <h1 className="text-4xl font-black mb-4">EspressoTrack</h1>
           <p className="text-xl text-amber-100 max-w-md">
             Your personal coffee brewing companion. Track, optimize, and perfect your espresso shots with detailed profiles and ratings.
           </p>
