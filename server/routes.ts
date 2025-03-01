@@ -1,10 +1,12 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProfileSchema, insertSettingsSchema } from "@shared/schema";
 import { setupAuth } from "./auth";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
-function ensureAuthenticated(req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -80,6 +82,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     const settings = await storage.updateSettings(result.data);
     res.json(settings);
+  });
+
+  app.delete("/api/user", ensureAuthenticated, async (req, res) => {
+    try {
+      // Delete all user's profiles first
+      await db.delete(profiles).where(eq(profiles.userId, req.user!.id));
+      // Then delete the user
+      await db.delete(users).where(eq(users.id, req.user!.id));
+      // Logout the user
+      req.logout((err) => {
+        if (err) return res.status(500).json({ message: err.message });
+        res.sendStatus(204);
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete account" });
+    }
   });
 
   return createServer(app);

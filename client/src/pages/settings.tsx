@@ -1,10 +1,10 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertSettingsSchema, type Settings } from "@shared/schema";
+import { insertSettingsSchema, type Settings, type InsertSettings } from "@shared/schema"; // Added InsertSettings import
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter"; // Add this import
+import { useLocation } from "wouter";
 import {
   Form,
   FormControl,
@@ -16,10 +16,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 export default function Settings() {
   const { toast } = useToast();
-  const [, navigate] = useLocation(); // Add this line
+  const [, navigate] = useLocation();
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { data: settings, isLoading } = useQuery<Settings>({
     queryKey: ["/api/settings"],
@@ -38,14 +52,31 @@ export default function Settings() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: typeof form.getValues) => {
+    mutationFn: async (data: InsertSettings) => {
       const res = await apiRequest("PATCH", "/api/settings", data);
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
       toast({ title: "Settings updated successfully" });
-      navigate("/"); // Navigate back to home after successful update
+      navigate("/");
+    },
+  });
+
+  const deleteAccountMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("DELETE", "/api/user");
+    },
+    onSuccess: () => {
+      toast({ title: "Account deleted successfully" });
+      navigate("/auth");
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to delete account",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -53,12 +84,25 @@ export default function Settings() {
     return <div className="container mx-auto p-8">Loading...</div>;
   }
 
-  const onSubmit = (data: typeof form.getValues) => {
+  const onSubmit = (data: InsertSettings) => {
     updateMutation.mutate(data);
   };
 
+  const handleDeleteAccount = () => {
+    if (deleteConfirmation.toLowerCase() !== "delete") {
+      toast({
+        title: "Invalid confirmation",
+        description: 'Please type "delete" to confirm account deletion',
+        variant: "destructive",
+      });
+      return;
+    }
+    deleteAccountMutation.mutate();
+    setShowDeleteDialog(false);
+  };
+
   return (
-    <div className="container mx-auto max-w-2xl p-8">
+    <div className="container mx-auto max-w-2xl p-8 space-y-8">
       <Card>
         <CardHeader>
           <CardTitle>Settings</CardTitle>
@@ -169,6 +213,49 @@ export default function Settings() {
               </div>
             </form>
           </Form>
+        </CardContent>
+      </Card>
+
+      {/* Delete Account Section */}
+      <Card className="border-destructive">
+        <CardHeader>
+          <CardTitle className="text-destructive">Delete Account</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground mb-4">
+            This action cannot be undone. All your coffee profiles and settings will be permanently deleted.
+          </p>
+          <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">Delete Account</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Account</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action is permanent and cannot be undone. All your coffee profiles and settings will be deleted.
+                  <div className="mt-4">
+                    <p className="font-medium mb-2">Type "delete" to confirm:</p>
+                    <Input
+                      value={deleteConfirmation}
+                      onChange={(e) => setDeleteConfirmation(e.target.value)}
+                      placeholder="Type 'delete' to confirm"
+                    />
+                  </div>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleDeleteAccount}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  disabled={deleteAccountMutation.isPending}
+                >
+                  Delete Account
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardContent>
       </Card>
     </div>
