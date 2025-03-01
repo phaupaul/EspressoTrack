@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertProfileSchema, insertSettingsSchema } from "@shared/schema";
+import { insertProfileSchema, insertSettingsSchema, users, profiles } from "@shared/schema";
 import { setupAuth } from "./auth";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -86,16 +86,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/user", ensureAuthenticated, async (req, res) => {
     try {
-      // Delete all user's profiles first
-      await db.delete(profiles).where(eq(profiles.userId, req.user!.id));
-      // Then delete the user
-      await db.delete(users).where(eq(users.id, req.user!.id));
-      // Logout the user
+      // Start a transaction to ensure both operations succeed or fail together
+      await db.transaction(async (tx) => {
+        // Delete all user's profiles first
+        await tx.delete(profiles).where(eq(profiles.userId, req.user!.id));
+        // Then delete the user
+        await tx.delete(users).where(eq(users.id, req.user!.id));
+      });
+
+      // Logout the user after successful deletion
       req.logout((err) => {
-        if (err) return res.status(500).json({ message: err.message });
+        if (err) {
+          console.error('Logout error:', err);
+          return res.status(500).json({ message: "Failed to complete logout after account deletion" });
+        }
         res.sendStatus(204);
       });
     } catch (error) {
+      console.error('Account deletion error:', error);
       res.status(500).json({ message: "Failed to delete account" });
     }
   });
