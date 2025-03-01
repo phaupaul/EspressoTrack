@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Settings, Coffee } from "lucide-react";
+import { PlusCircle, Settings, Coffee, LogOut } from "lucide-react";
 import ProfileCard from "@/components/profile-card";
 import SearchBar from "@/components/search-bar";
 import type { Profile } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Home() {
   const [search, setSearch] = useState("");
+  const [, navigate] = useLocation();
+  const { logoutMutation } = useAuth();
   const { data: profiles = [], isLoading } = useQuery<Profile[]>({
     queryKey: ["/api/profiles"],
   });
@@ -19,6 +22,15 @@ export default function Home() {
       p.product.toLowerCase().includes(search.toLowerCase()) ||
       p.roast.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleLogout = async () => {
+    try {
+      await logoutMutation.mutateAsync();
+      navigate("/auth");
+    } catch (error) {
+      // Error is handled by the mutation's onError callback
+    }
+  };
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -44,6 +56,10 @@ export default function Home() {
               New Profile
             </Button>
           </Link>
+          <Button variant="outline" onClick={handleLogout} disabled={logoutMutation.isPending}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign Out
+          </Button>
         </div>
       </div>
 
