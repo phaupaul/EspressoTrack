@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -48,7 +49,7 @@ export default function Profile() {
 
   const form = useForm({
     resolver: zodResolver(insertProfileSchema),
-    defaultValues: profile || {
+    defaultValues: {
       brand: "",
       product: "",
       roast: "Medium",
@@ -65,6 +66,13 @@ export default function Profile() {
       extractionTime: undefined,
     },
   });
+
+  // Update form values when profile data is loaded
+  useEffect(() => {
+    if (profile) {
+      form.reset(profile);
+    }
+  }, [profile, form]);
 
   const advancedFeedbackEnabled = form.watch("advancedFeedback");
 
