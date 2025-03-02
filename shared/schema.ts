@@ -3,7 +3,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-export const roastOptions = ["Light", "Medium", "Medium-Dark", "Dark"] as const;
+export const roastOptions = ["Light", "Light-Medium", "Medium", "Medium-Dark", "Dark"] as const;
 
 // User table for authentication
 export const users = pgTable("users", {

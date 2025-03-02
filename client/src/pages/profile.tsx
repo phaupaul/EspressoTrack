@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import Rating from "@/components/rating";
 
@@ -29,6 +31,11 @@ export default function Profile() {
   const { id } = useParams();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+
+  // Add toggle states
+  const [showGrinderSetting, setShowGrinderSetting] = useState(true);
+  const [showDialSetting, setShowDialSetting] = useState(true);
+  const [showGrindAmount, setShowGrindAmount] = useState(true);
 
   const { data: profile, isLoading } = useQuery<Profile>({
     queryKey: [`/api/profiles/${id}`],
@@ -153,21 +160,29 @@ export default function Profile() {
             name="grinderSetting"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grinder Setting (1-16)</FormLabel>
-                <div className="space-y-2">
-                  <FormControl>
-                    <Slider
-                      min={1}
-                      max={16}
-                      step={1}
-                      value={[field.value || 8]}
-                      onValueChange={([value]) => field.onChange(value)}
-                    />
-                  </FormControl>
-                  <div className="text-sm text-muted-foreground text-right">
-                    Current setting: {field.value || 8}
-                  </div>
+                <div className="flex justify-between items-center mb-2">
+                  <FormLabel>Grinder Setting (1-16)</FormLabel>
+                  <Switch
+                    checked={showGrinderSetting}
+                    onCheckedChange={setShowGrinderSetting}
+                  />
                 </div>
+                {showGrinderSetting && (
+                  <div className="space-y-2">
+                    <FormControl>
+                      <Slider
+                        min={1}
+                        max={16}
+                        step={1}
+                        value={[field.value || 8]}
+                        onValueChange={([value]) => field.onChange(value)}
+                      />
+                    </FormControl>
+                    <div className="text-sm text-muted-foreground text-right">
+                      Current setting: {field.value || 8}
+                    </div>
+                  </div>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -178,21 +193,29 @@ export default function Profile() {
             name="grindAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grind Dial Setting (1-100)</FormLabel>
-                <div className="space-y-2">
-                  <FormControl>
-                    <Slider
-                      min={1}
-                      max={100}
-                      step={1}
-                      value={[field.value || 50]}
-                      onValueChange={([value]) => field.onChange(value)}
-                    />
-                  </FormControl>
-                  <div className="text-sm text-muted-foreground text-right">
-                    Current setting: {field.value || 50}
-                  </div>
+                <div className="flex justify-between items-center mb-2">
+                  <FormLabel>Grind Dial Setting (1-100)</FormLabel>
+                  <Switch
+                    checked={showDialSetting}
+                    onCheckedChange={setShowDialSetting}
+                  />
                 </div>
+                {showDialSetting && (
+                  <div className="space-y-2">
+                    <FormControl>
+                      <Slider
+                        min={1}
+                        max={100}
+                        step={1}
+                        value={[field.value || 50]}
+                        onValueChange={([value]) => field.onChange(value)}
+                      />
+                    </FormControl>
+                    <div className="text-sm text-muted-foreground text-right">
+                      Current setting: {field.value || 50}
+                    </div>
+                  </div>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -203,21 +226,29 @@ export default function Profile() {
             name="grindAmountGrams"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grind Amount (0-25g)</FormLabel>
-                <div className="space-y-2">
-                  <FormControl>
-                    <Slider
-                      min={0}
-                      max={25}
-                      step={0.5}
-                      value={[field.value || 18]}
-                      onValueChange={([value]) => field.onChange(value)}
-                    />
-                  </FormControl>
-                  <div className="text-sm text-muted-foreground text-right">
-                    Current amount: {field.value || 18}g
-                  </div>
+                <div className="flex justify-between items-center mb-2">
+                  <FormLabel>Grind Amount (0-25g)</FormLabel>
+                  <Switch
+                    checked={showGrindAmount}
+                    onCheckedChange={setShowGrindAmount}
+                  />
                 </div>
+                {showGrindAmount && (
+                  <div className="space-y-2">
+                    <FormControl>
+                      <Slider
+                        min={0}
+                        max={25}
+                        step={0.5}
+                        value={[field.value || 18]}
+                        onValueChange={([value]) => field.onChange(value)}
+                      />
+                    </FormControl>
+                    <div className="text-sm text-muted-foreground text-right">
+                      Current amount: {field.value || 18}g
+                    </div>
+                  </div>
+                )}
                 <FormMessage />
               </FormItem>
             )}
