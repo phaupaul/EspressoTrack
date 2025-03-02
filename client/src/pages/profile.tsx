@@ -2,7 +2,17 @@ import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertProfileSchema, roastOptions, type Profile } from "@shared/schema";
+import { 
+  insertProfileSchema, 
+  roastOptions, 
+  appearanceOptions,
+  aromaOptions,
+  tasteOptions,
+  bodyOptions,
+  aftertasteOptions,
+  extractionTimeOptions,
+  type Profile 
+} from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -22,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import Rating from "@/components/rating";
 
@@ -45,8 +56,17 @@ export default function Profile() {
       grindAmount: 50,
       grindAmountGrams: 18,
       rating: undefined,
+      advancedFeedback: false,
+      appearance: undefined,
+      aroma: undefined,
+      taste: undefined,
+      body: undefined,
+      aftertaste: undefined,
+      extractionTime: undefined,
     },
   });
+
+  const advancedFeedbackEnabled = form.watch("advancedFeedback");
 
   const createMutation = useMutation({
     mutationFn: async (data: typeof form.getValues) => {
@@ -239,6 +259,179 @@ export default function Profile() {
               </FormItem>
             )}
           />
+
+          <div className="space-y-6 border-t pt-6">
+            <FormField
+              control={form.control}
+              name="advancedFeedback"
+              render={({ field }) => (
+                <FormItem className="flex items-center justify-between">
+                  <FormLabel>Advanced Feedback</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {advancedFeedbackEnabled && (
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="appearance"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Appearance</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select appearance" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {appearanceOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aroma"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Aroma</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select aroma" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {aromaOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="taste"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Taste</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select taste" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {tasteOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="body"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Body</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select body" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {bodyOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aftertaste"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Aftertaste</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select aftertaste" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {aftertasteOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="extractionTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Extraction Time</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select extraction time" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {extractionTimeOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+          </div>
 
           <div className="flex gap-4">
             <Button

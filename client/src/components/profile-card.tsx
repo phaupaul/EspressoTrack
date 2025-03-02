@@ -80,6 +80,49 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
               <Rating value={profile.rating} readOnly />
             </div>
           )}
+
+          {profile.advancedFeedback && (
+            <div className="border-t pt-4 mt-4 space-y-2">
+              <div className="text-sm font-medium mb-2">Advanced Feedback</div>
+              {profile.appearance && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Appearance</span>
+                  <span>{profile.appearance}</span>
+                </div>
+              )}
+              {profile.aroma && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Aroma</span>
+                  <span>{profile.aroma}</span>
+                </div>
+              )}
+              {profile.taste && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Taste</span>
+                  <span>{profile.taste}</span>
+                </div>
+              )}
+              {profile.body && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Body</span>
+                  <span>{profile.body}</span>
+                </div>
+              )}
+              {profile.aftertaste && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Aftertaste</span>
+                  <span>{profile.aftertaste}</span>
+                </div>
+              )}
+              {profile.extractionTime && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Extraction Time</span>
+                  <span>{profile.extractionTime}</span>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="flex justify-between items-center pt-4">
             <Link href={`/profile/${profile.id}`}>
               <Button variant="outline" size="sm">Edit</Button>

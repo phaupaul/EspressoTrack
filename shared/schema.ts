@@ -1,9 +1,17 @@
-import { pgTable, text, serial, integer, real, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, real, timestamp, uniqueIndex, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
 export const roastOptions = ["Light", "Medium", "Medium-Dark", "Dark"] as const;
+
+// Advanced feedback options
+export const appearanceOptions = ["Thick & golden-brown (ideal)", "Thin or pale (under-extracted)", "Dark or spotty (over-extracted)"] as const;
+export const aromaOptions = ["Strong & inviting", "Mild & noticeable", "Weak or flat"] as const;
+export const tasteOptions = ["Well-balanced (ideal)", "Too sour (under-extracted)", "Too bitter (over-extracted)", "Flat or lacking flavor"] as const;
+export const bodyOptions = ["Rich & velvety (ideal)", "Smooth but light", "Watery or thin", "Heavy & syrupy"] as const;
+export const aftertasteOptions = ["Pleasant & lingers nicely", "Fades too fast", "Harsh or unpleasant"] as const;
+export const extractionTimeOptions = ["Ideal", "Too fast, under-extracted", "Too slow, over-extracted"] as const;
 
 // User table for authentication
 export const users = pgTable("users", {
@@ -22,7 +30,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   profiles: many(profiles),
 }));
 
-// Update profiles table to include user relationship
+// Update profiles table to include user relationship and advanced feedback
 export const profiles = pgTable("profiles", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id),
@@ -33,6 +41,14 @@ export const profiles = pgTable("profiles", {
   grindAmount: integer("grind_amount").notNull().default(50),
   grindAmountGrams: integer("grind_amount_grams").notNull().default(18),
   rating: real("rating"),
+  // Advanced feedback fields
+  advancedFeedback: boolean("advanced_feedback").default(false),
+  appearance: text("appearance", { enum: appearanceOptions }),
+  aroma: text("aroma", { enum: aromaOptions }),
+  taste: text("taste", { enum: tasteOptions }),
+  body: text("body", { enum: bodyOptions }),
+  aftertaste: text("aftertaste", { enum: aftertasteOptions }),
+  extractionTime: text("extraction_time", { enum: extractionTimeOptions }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -78,6 +94,14 @@ export const insertProfileSchema = createInsertSchema(profiles)
     grindAmount: z.number().min(1).max(100),
     grindAmountGrams: z.number().min(0).max(25),
     rating: z.number().min(1).max(5).optional(),
+    // Make advanced feedback fields optional
+    advancedFeedback: z.boolean().optional(),
+    appearance: z.enum(appearanceOptions).optional(),
+    aroma: z.enum(aromaOptions).optional(),
+    taste: z.enum(tasteOptions).optional(),
+    body: z.enum(bodyOptions).optional(),
+    aftertaste: z.enum(aftertasteOptions).optional(),
+    extractionTime: z.enum(extractionTimeOptions).optional(),
   });
 
 export const insertSettingsSchema = createInsertSchema(settings)
