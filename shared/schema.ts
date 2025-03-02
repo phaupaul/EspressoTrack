@@ -39,7 +39,7 @@ export const profiles = pgTable("profiles", {
   roast: text("roast", { enum: roastOptions }).notNull(),
   grinderSetting: integer("grinder_setting").notNull().default(8),
   grindAmount: integer("grind_amount").notNull().default(50),
-  grindAmountGrams: integer("grind_amount_grams").notNull().default(18),
+  grindAmountGrams: real("grind_amount_grams").notNull().default(18),
   rating: real("rating"),
   // Advanced feedback fields
   advancedFeedback: boolean("advanced_feedback").default(false),
