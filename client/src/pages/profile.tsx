@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertProfileSchema, roastOptions, type Profile, type InsertProfile } from "@shared/schema";
+import { insertProfileSchema, roastOptions, type Profile } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -23,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import Rating from "@/components/rating";
 
@@ -32,17 +30,12 @@ export default function Profile() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
 
-  // Add toggle states
-  const [showGrinderSetting, setShowGrinderSetting] = useState(true);
-  const [showDialSetting, setShowDialSetting] = useState(true);
-  const [showGrindAmount, setShowGrindAmount] = useState(true);
-
   const { data: profile, isLoading } = useQuery<Profile>({
     queryKey: [`/api/profiles/${id}`],
     enabled: !!id,
   });
 
-  const form = useForm<InsertProfile>({
+  const form = useForm({
     resolver: zodResolver(insertProfileSchema),
     defaultValues: profile || {
       brand: "",
@@ -55,36 +48,8 @@ export default function Profile() {
     },
   });
 
-  // Update form values when toggles change
-  const handleGrinderSettingToggle = (checked: boolean) => {
-    setShowGrinderSetting(checked);
-    if (!checked) {
-      form.setValue('grinderSetting', null);
-    } else {
-      form.setValue('grinderSetting', 8);
-    }
-  };
-
-  const handleDialSettingToggle = (checked: boolean) => {
-    setShowDialSetting(checked);
-    if (!checked) {
-      form.setValue('grindAmount', null);
-    } else {
-      form.setValue('grindAmount', 50);
-    }
-  };
-
-  const handleGrindAmountToggle = (checked: boolean) => {
-    setShowGrindAmount(checked);
-    if (!checked) {
-      form.setValue('grindAmountGrams', null);
-    } else {
-      form.setValue('grindAmountGrams', 18);
-    }
-  };
-
   const createMutation = useMutation({
-    mutationFn: async (data: InsertProfile) => {
+    mutationFn: async (data: typeof form.getValues) => {
       const res = await apiRequest("POST", "/api/profiles", data);
       return res.json();
     },
@@ -96,7 +61,7 @@ export default function Profile() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: InsertProfile) => {
+    mutationFn: async (data: typeof form.getValues) => {
       const res = await apiRequest("PATCH", `/api/profiles/${id}`, data);
       return res.json();
     },
@@ -111,7 +76,7 @@ export default function Profile() {
     return <div className="container mx-auto p-8">Loading...</div>;
   }
 
-  const onSubmit = (data: InsertProfile) => {
+  const onSubmit = (data: typeof form.getValues) => {
     if (id) {
       updateMutation.mutate(data);
     } else {
@@ -186,32 +151,23 @@ export default function Profile() {
           <FormField
             control={form.control}
             name="grinderSetting"
-            render={({ field: { value, onChange, ...field } }) => (
+            render={({ field }) => (
               <FormItem>
-                <div className="flex justify-between items-center mb-2">
-                  <FormLabel>Grinder Setting (1-16)</FormLabel>
-                  <Switch
-                    checked={showGrinderSetting}
-                    onCheckedChange={handleGrinderSettingToggle}
-                  />
-                </div>
-                {showGrinderSetting && (
-                  <div className="space-y-2">
-                    <FormControl>
-                      <Slider
-                        min={1}
-                        max={16}
-                        step={1}
-                        value={[value ?? 8]}
-                        onValueChange={([v]) => onChange(v)}
-                        {...field}
-                      />
-                    </FormControl>
-                    <div className="text-sm text-muted-foreground text-right">
-                      Current setting: {value ?? 8}
-                    </div>
+                <FormLabel>Grinder Setting (1-16)</FormLabel>
+                <div className="space-y-2">
+                  <FormControl>
+                    <Slider
+                      min={1}
+                      max={16}
+                      step={1}
+                      value={[field.value || 8]}
+                      onValueChange={([value]) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <div className="text-sm text-muted-foreground text-right">
+                    Current setting: {field.value || 8}
                   </div>
-                )}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -220,32 +176,23 @@ export default function Profile() {
           <FormField
             control={form.control}
             name="grindAmount"
-            render={({ field: { value, onChange, ...field } }) => (
+            render={({ field }) => (
               <FormItem>
-                <div className="flex justify-between items-center mb-2">
-                  <FormLabel>Grind Dial Setting (1-100)</FormLabel>
-                  <Switch
-                    checked={showDialSetting}
-                    onCheckedChange={handleDialSettingToggle}
-                  />
-                </div>
-                {showDialSetting && (
-                  <div className="space-y-2">
-                    <FormControl>
-                      <Slider
-                        min={1}
-                        max={100}
-                        step={1}
-                        value={[value ?? 50]}
-                        onValueChange={([v]) => onChange(v)}
-                        {...field}
-                      />
-                    </FormControl>
-                    <div className="text-sm text-muted-foreground text-right">
-                      Current setting: {value ?? 50}
-                    </div>
+                <FormLabel>Grind Dial Setting (1-100)</FormLabel>
+                <div className="space-y-2">
+                  <FormControl>
+                    <Slider
+                      min={1}
+                      max={100}
+                      step={1}
+                      value={[field.value || 50]}
+                      onValueChange={([value]) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <div className="text-sm text-muted-foreground text-right">
+                    Current setting: {field.value || 50}
                   </div>
-                )}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -254,32 +201,23 @@ export default function Profile() {
           <FormField
             control={form.control}
             name="grindAmountGrams"
-            render={({ field: { value, onChange, ...field } }) => (
+            render={({ field }) => (
               <FormItem>
-                <div className="flex justify-between items-center mb-2">
-                  <FormLabel>Grind Amount (0-25g)</FormLabel>
-                  <Switch
-                    checked={showGrindAmount}
-                    onCheckedChange={handleGrindAmountToggle}
-                  />
-                </div>
-                {showGrindAmount && (
-                  <div className="space-y-2">
-                    <FormControl>
-                      <Slider
-                        min={0}
-                        max={25}
-                        step={0.5}
-                        value={[value ?? 18]}
-                        onValueChange={([v]) => onChange(v)}
-                        {...field}
-                      />
-                    </FormControl>
-                    <div className="text-sm text-muted-foreground text-right">
-                      Current amount: {value ?? 18}g
-                    </div>
+                <FormLabel>Grind Amount (0-25g)</FormLabel>
+                <div className="space-y-2">
+                  <FormControl>
+                    <Slider
+                      min={0}
+                      max={25}
+                      step={0.5}
+                      value={[field.value || 18]}
+                      onValueChange={([value]) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <div className="text-sm text-muted-foreground text-right">
+                    Current amount: {field.value || 18}g
                   </div>
-                )}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -293,7 +231,7 @@ export default function Profile() {
                 <FormLabel>Rating</FormLabel>
                 <FormControl>
                   <Rating
-                    value={field.value ?? undefined}
+                    value={field.value}
                     onChange={field.onChange}
                   />
                 </FormControl>

@@ -3,7 +3,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-export const roastOptions = ["Light", "Light-Medium", "Medium", "Medium-Dark", "Dark"] as const;
+export const roastOptions = ["Light", "Medium", "Medium-Dark", "Dark"] as const;
 
 // User table for authentication
 export const users = pgTable("users", {
@@ -29,9 +29,9 @@ export const profiles = pgTable("profiles", {
   brand: text("brand").notNull(),
   product: text("product").notNull(),
   roast: text("roast", { enum: roastOptions }).notNull(),
-  grinderSetting: integer("grinder_setting"),
-  grindAmount: integer("grind_amount"),
-  grindAmountGrams: integer("grind_amount_grams"),
+  grinderSetting: integer("grinder_setting").notNull().default(8),
+  grindAmount: integer("grind_amount").notNull().default(50),
+  grindAmountGrams: integer("grind_amount_grams").notNull().default(18),
   rating: real("rating"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -74,9 +74,9 @@ export const insertUserSchema = createInsertSchema(users)
 export const insertProfileSchema = createInsertSchema(profiles)
   .omit({ id: true, userId: true, createdAt: true })
   .extend({
-    grinderSetting: z.number().min(1).max(16).nullable(),
-    grindAmount: z.number().min(1).max(100).nullable(),
-    grindAmountGrams: z.number().min(0).max(25).nullable(),
+    grinderSetting: z.number().min(1).max(16),
+    grindAmount: z.number().min(1).max(100),
+    grindAmountGrams: z.number().min(0).max(25),
     rating: z.number().min(1).max(5).optional(),
   });
 
