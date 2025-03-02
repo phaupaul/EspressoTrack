@@ -56,19 +56,19 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {profile.grinderSetting && (
+          {profile.grinderSetting !== null && profile.grinderSetting !== undefined && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">Grinder Setting</span>
               <span>{profile.grinderSetting}</span>
             </div>
           )}
-          {profile.grindAmount && (
+          {profile.grindAmount !== null && profile.grindAmount !== undefined && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">Grind Dial Setting</span>
               <span>{profile.grindAmount}</span>
             </div>
           )}
-          {profile.grindAmountGrams && (
+          {profile.grindAmountGrams !== null && profile.grindAmountGrams !== undefined && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">Grind Amount</span>
               <span>{profile.grindAmountGrams}g</span>
