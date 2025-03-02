@@ -55,6 +55,34 @@ export default function Profile() {
     },
   });
 
+  // Update form values when toggles change
+  const handleGrinderSettingToggle = (checked: boolean) => {
+    setShowGrinderSetting(checked);
+    if (!checked) {
+      form.setValue('grinderSetting', null);
+    } else {
+      form.setValue('grinderSetting', 8);
+    }
+  };
+
+  const handleDialSettingToggle = (checked: boolean) => {
+    setShowDialSetting(checked);
+    if (!checked) {
+      form.setValue('grindAmount', null);
+    } else {
+      form.setValue('grindAmount', 50);
+    }
+  };
+
+  const handleGrindAmountToggle = (checked: boolean) => {
+    setShowGrindAmount(checked);
+    if (!checked) {
+      form.setValue('grindAmountGrams', null);
+    } else {
+      form.setValue('grindAmountGrams', 18);
+    }
+  };
+
   const createMutation = useMutation({
     mutationFn: async (data: typeof form.getValues) => {
       const res = await apiRequest("POST", "/api/profiles", data);
@@ -164,7 +192,7 @@ export default function Profile() {
                   <FormLabel>Grinder Setting (1-16)</FormLabel>
                   <Switch
                     checked={showGrinderSetting}
-                    onCheckedChange={setShowGrinderSetting}
+                    onCheckedChange={handleGrinderSettingToggle}
                   />
                 </div>
                 {showGrinderSetting && (
@@ -197,7 +225,7 @@ export default function Profile() {
                   <FormLabel>Grind Dial Setting (1-100)</FormLabel>
                   <Switch
                     checked={showDialSetting}
-                    onCheckedChange={setShowDialSetting}
+                    onCheckedChange={handleDialSettingToggle}
                   />
                 </div>
                 {showDialSetting && (
@@ -230,7 +258,7 @@ export default function Profile() {
                   <FormLabel>Grind Amount (0-25g)</FormLabel>
                   <Switch
                     checked={showGrindAmount}
-                    onCheckedChange={setShowGrindAmount}
+                    onCheckedChange={handleGrindAmountToggle}
                   />
                 </div>
                 {showGrindAmount && (
