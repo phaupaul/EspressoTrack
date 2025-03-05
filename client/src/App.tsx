@@ -9,11 +9,13 @@ import Home from "@/pages/home";
 import Profile from "@/pages/profile";
 import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth";
+import Landing from "@/pages/landing";
 
 function Router() {
   return (
     <Switch>
-      <ProtectedRoute path="/" component={Home} />
+      <Route path="/" component={Landing} />
+      <ProtectedRoute path="/dashboard" component={Home} />
       <ProtectedRoute path="/profile/new" component={Profile} />
       <ProtectedRoute path="/profile/:id" component={Profile} />
       <ProtectedRoute path="/settings" component={Settings} />
