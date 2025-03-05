@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Coffee, Star, Settings2, Droplets } from "lucide-react";
+import { Coffee, Star, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 
 const features = [
   {
@@ -25,14 +26,21 @@ const features = [
 export default function Landing() {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
+    // Redirect authenticated users to dashboard
+    if (user) {
+      navigate("/dashboard");
+      return;
+    }
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">

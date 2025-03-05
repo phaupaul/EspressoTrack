@@ -44,7 +44,7 @@ export default function AuthPage() {
   useEffect(() => {
     // Redirect if already logged in
     if (user) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 
@@ -55,7 +55,7 @@ export default function AuthPage() {
       } else {
         await registerMutation.mutateAsync(data);
       }
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       // Error is handled by the mutation's onError callback
     }
