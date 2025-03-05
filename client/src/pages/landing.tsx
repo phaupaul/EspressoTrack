@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Coffee, Star, Settings2, BarChart3, Droplets } from "lucide-react";
+import { Coffee, Star, Settings2, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const features = [
@@ -19,11 +19,6 @@ const features = [
     icon: Settings2,
     title: "Optimize Settings",
     description: "Fine-tune your grinder settings and dosage for the perfect extraction",
-  },
-  {
-    icon: BarChart3,
-    title: "Advanced Analytics",
-    description: "Track your progress and identify patterns in your coffee making journey",
   },
 ];
 
@@ -94,7 +89,7 @@ export default function Landing() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="container mx-auto px-4 mt-24"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
