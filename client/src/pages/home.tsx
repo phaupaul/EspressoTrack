@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Settings, Coffee, LogOut, BookText } from "lucide-react";
+import { PlusCircle, Settings, Coffee, LogOut } from "lucide-react";
 import ProfileCard from "@/components/profile-card";
 import SearchBar from "@/components/search-bar";
 import type { Profile } from "@shared/schema";
@@ -48,12 +48,6 @@ export default function Home() {
             <Button size="sm" className="md:size-default">
               <PlusCircle className="mr-2 h-4 w-4" />
               New Profile
-            </Button>
-          </Link>
-          <Link href="/blog">
-            <Button variant="outline" size="sm" className="md:size-default">
-              <BookText className="mr-2 h-4 w-4" />
-              Blog
             </Button>
           </Link>
           <Link href="/settings">

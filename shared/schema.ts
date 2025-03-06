@@ -28,7 +28,6 @@ export const users = pgTable("users", {
 // Add relations for users
 export const usersRelations = relations(users, ({ many }) => ({
   profiles: many(profiles),
-  blogs: many(blogs),
 }));
 
 // Update profiles table to include user relationship and advanced feedback
@@ -60,26 +59,6 @@ export const profilesRelations = relations(profiles, ({ one }) => ({
     references: [users.id],
   }),
 }));
-
-// Add Blog table
-export const blogs = pgTable("blogs", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  title: text("title").notNull(),
-  content: text("content").notNull(),
-  published: boolean("published").default(false),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-// Add blog relations
-export const blogsRelations = relations(blogs, ({ one }) => ({
-  user: one(users, {
-    fields: [blogs.userId],
-    references: [users.id],
-  }),
-}));
-
 
 export const settings = pgTable("settings", {
   id: serial("id").primaryKey(),
@@ -128,14 +107,6 @@ export const insertProfileSchema = createInsertSchema(profiles)
 export const insertSettingsSchema = createInsertSchema(settings)
   .omit({ id: true });
 
-// Add blog schema
-export const insertBlogSchema = createInsertSchema(blogs)
-  .omit({ id: true, userId: true, createdAt: true, updatedAt: true })
-  .extend({
-    title: z.string().min(1, "Title is required").max(200, "Title is too long"),
-    content: z.string().min(1, "Content is required"),
-  });
-
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
@@ -144,6 +115,3 @@ export type Profile = typeof profiles.$inferSelect;
 
 export type InsertSettings = z.infer<typeof insertSettingsSchema>;
 export type Settings = typeof settings.$inferSelect;
-
-export type InsertBlog = z.infer<typeof insertBlogSchema>;
-export type Blog = typeof blogs.$inferSelect;

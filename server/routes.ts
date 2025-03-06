@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertProfileSchema, insertSettingsSchema, insertBlogSchema, users, profiles, blogs } from "@shared/schema";
+import { insertProfileSchema, insertSettingsSchema, users, profiles } from "@shared/schema";
 import { setupAuth } from "./auth";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -106,57 +106,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Account deletion error:', error);
       res.status(500).json({ message: "Failed to delete account" });
     }
-  });
-
-  // Blog routes
-  app.get("/api/blogs", ensureAuthenticated, async (req, res) => {
-    const blogs = await storage.getUserBlogs(req.user!.id);
-    res.json(blogs);
-  });
-
-  app.get("/api/blogs/:id", ensureAuthenticated, async (req, res) => {
-    const blog = await storage.getBlog(Number(req.params.id));
-    if (!blog) return res.status(404).json({ message: "Blog not found" });
-    if (blog.userId !== req.user!.id) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-    res.json(blog);
-  });
-
-  app.post("/api/blogs", ensureAuthenticated, async (req, res) => {
-    const result = insertBlogSchema.safeParse(req.body);
-    if (!result.success) {
-      return res.status(400).json({ message: result.error.message });
-    }
-    const blog = await storage.createBlog(req.user!.id, result.data);
-    res.status(201).json(blog);
-  });
-
-  app.patch("/api/blogs/:id", ensureAuthenticated, async (req, res) => {
-    const blog = await storage.getBlog(Number(req.params.id));
-    if (!blog) return res.status(404).json({ message: "Blog not found" });
-    if (blog.userId !== req.user!.id) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
-    const result = insertBlogSchema.partial().safeParse(req.body);
-    if (!result.success) {
-      return res.status(400).json({ message: result.error.message });
-    }
-
-    const updatedBlog = await storage.updateBlog(Number(req.params.id), result.data);
-    res.json(updatedBlog);
-  });
-
-  app.delete("/api/blogs/:id", ensureAuthenticated, async (req, res) => {
-    const blog = await storage.getBlog(Number(req.params.id));
-    if (!blog) return res.status(404).json({ message: "Blog not found" });
-    if (blog.userId !== req.user!.id) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
-    await storage.deleteBlog(Number(req.params.id));
-    res.status(204).send();
   });
 
   return createServer(app);
