@@ -10,6 +10,8 @@ import Profile from "@/pages/profile";
 import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth";
 import Landing from "@/pages/landing";
+import Blog from "@/pages/blog";
+import BlogEditor from "@/pages/blog-editor";
 
 function Router() {
   return (
@@ -19,6 +21,9 @@ function Router() {
       <ProtectedRoute path="/profile/new" component={Profile} />
       <ProtectedRoute path="/profile/:id" component={Profile} />
       <ProtectedRoute path="/settings" component={Settings} />
+      <ProtectedRoute path="/blog" component={Blog} />
+      <ProtectedRoute path="/blog/new" component={BlogEditor} />
+      <ProtectedRoute path="/blog/:id" component={BlogEditor} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>

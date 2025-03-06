@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Settings, Coffee, LogOut } from "lucide-react";
+import { PlusCircle, Settings, Coffee, LogOut, BookText } from "lucide-react";
 import ProfileCard from "@/components/profile-card";
 import SearchBar from "@/components/search-bar";
 import type { Profile } from "@shared/schema";
@@ -50,17 +50,23 @@ export default function Home() {
               New Profile
             </Button>
           </Link>
+          <Link href="/blog">
+            <Button variant="outline" size="sm" className="md:size-default">
+              <BookText className="mr-2 h-4 w-4" />
+              Blog
+            </Button>
+          </Link>
           <Link href="/settings">
             <Button variant="outline" size="sm" className="md:size-default">
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
           </Link>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="icon"
             className="h-8 w-8 md:h-9 md:w-9"
-            onClick={handleLogout} 
+            onClick={handleLogout}
             disabled={logoutMutation.isPending}
           >
             <LogOut className="h-4 w-4" />
