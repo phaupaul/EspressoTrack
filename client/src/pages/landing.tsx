@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Coffee, Star, Settings2 } from "lucide-react";
+import { Coffee, Star, Settings2, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -54,9 +54,19 @@ export default function Landing() {
               EspressoTrack
             </span>
           </div>
-          <Button onClick={() => navigate("/auth")} variant="default">
-            Get Started
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate("/blog")}
+              className="flex items-center gap-2"
+            >
+              <BookOpen className="h-4 w-4" />
+              Blog
+            </Button>
+            <Button onClick={() => navigate("/auth")} variant="default">
+              Get Started
+            </Button>
+          </div>
         </div>
       </nav>
 
