@@ -21,8 +21,8 @@ export default function Blog() {
           <Card>
             <CardContent className="pt-6">
               <p className="text-muted-foreground mb-4">
-                Coming soon! Our blog will feature articles about coffee brewing techniques,
-                equipment reviews, and tips for perfecting your espresso shots.
+                Coming soon! Our blog will feature articles about coffee brewing techniques
+                and tips for perfecting your espresso shots.
               </p>
             </CardContent>
           </Card>
