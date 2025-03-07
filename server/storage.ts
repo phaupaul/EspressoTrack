@@ -1,9 +1,4 @@
-import { 
-  profiles, users, settings,
-  type Profile, type InsertProfile, 
-  type User, type InsertUser, 
-  type Settings, type InsertSettings
-} from "@shared/schema";
+import { profiles, users, settings, type Profile, type InsertProfile, type User, type InsertUser, type Settings, type InsertSettings } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import session from "express-session";
