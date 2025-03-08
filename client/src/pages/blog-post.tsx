@@ -41,7 +41,6 @@ export default function BlogPost() {
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
           <p className="text-xl text-muted-foreground mb-8">{post.description}</p>
           <ReactMarkdown 
-            className="markdown-content"
             components={{
               a: ({node, ...props}) => (
                 <a {...props} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700" />
