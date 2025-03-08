@@ -11,12 +11,14 @@ import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth";
 import Landing from "@/pages/landing";
 import Blog from "@/pages/blog";
+import BlogPost from "@/pages/blog-post";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/blog" component={Blog} />
+      <Route path="/blog/:id" component={BlogPost} />
       <ProtectedRoute path="/dashboard" component={Home} />
       <ProtectedRoute path="/profile/new" component={Profile} />
       <ProtectedRoute path="/profile/:id" component={Profile} />

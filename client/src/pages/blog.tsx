@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-const blogPosts = [
+export const blogPosts = [
   {
     id: 1,
     title: "The Ultimate Guide to Espresso Machine Maintenance",
@@ -87,10 +87,12 @@ export default function Blog() {
                   <p className="text-muted-foreground mb-4">
                     {post.content.split('\n')[0]}
                   </p>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    Read More
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                  <Link href={`/blog/${post.id}`}>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      Read More
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
