@@ -48,9 +48,9 @@ Daily cleaning and periodic deep maintenance prevent scale buildup, ensure consi
 - Clean inside the water reservoir
 
 ## Essential Maintenance Tools
-- [Espresso Machine Cleaning Powder](https://www.amazon.com/Cafiza-Professional-Espresso-Machine-Cleaning/dp/B001418KR4)
-- [Group Head Brush](https://www.amazon.com/Brushtech-B42C-Coffee-Grinder-Brush/dp/B0050MMJQ0)
-- [Microfiber Cleaning Cloths](https://www.amazon.com/MR-SIGA-Microfiber-Cleaning-Pack-12-Size/dp/B07XP4GK8J)
+- [Espresso Machine Cleaning Powder](https://a.co/d/7tvadzM)
+- [Group Head Brush](https://artpressodesign.com/product/espresso-machine-58mm-group-head-cleaning-tool/)
+- [Microfiber Cleaning Cloths](https://a.co/d/b12k55b)
 
 ## Descaling: The Essential Deep Clean
 
@@ -335,9 +335,9 @@ Burr grinders use two abrading surfaces to crush coffee beans to a specific size
 
 Before beginning the dialing-in process, ensure you have:
 
-- [Timemore Black Mirror Basic Scale](https://www.amazon.com/TIMEMORE-Electronic-Precision-Sensors-Battery/dp/B094XKJVGH)
-- [Normcore V4 Distribution Tool](https://www.amazon.com/Normcore-Distribution-Professional-Portafilter-MATOW/dp/B09KZQZ5YM)
-- [Normcore Spring-Loaded Tamper](https://www.amazon.com/Normcore-Calibrated-Spring-Loaded-Portafilter-Professional/dp/B09B7HNXPX)
+- [Timemore Black Mirror Basic Scale](https://a.co/d/7mwSrRa)
+- [Normcore V4 Distribution Tool](https://a.co/d/4fzIbm3)
+- [Normcore Spring-Loaded Tamper](https://a.co/d/04ook4k)
 - A quality burr grinder
 - A clean, properly maintained espresso machine
 - Fresh coffee (ideally 7-21 days off roast for espresso)
