@@ -48,9 +48,9 @@ Daily cleaning and periodic deep maintenance prevent scale buildup, ensure consi
 - Clean inside the water reservoir
 
 ## Essential Maintenance Tools
-- [Espresso Machine Cleaning Powder](https://www.amazon.com/Urnex-Espresso-Machine-Cleaning-Powder/dp/B001418KNS)
-- [Group Head Brush](https://www.amazon.com/Pallo-Coffee-Tool-Group-Handle/dp/B004PN8QTE)
-- [Microfiber Cleaning Cloths](https://www.amazon.com/AmazonBasics-Microfiber-Cleaning-Cloth-Pack/dp/B009FUF6DM)
+- [Espresso Machine Cleaning Powder](https://www.amazon.com/Cafiza-Professional-Espresso-Machine-Cleaning/dp/B001418KR4)
+- [Group Head Brush](https://www.amazon.com/Brushtech-B42C-Coffee-Grinder-Brush/dp/B0050MMJQ0)
+- [Microfiber Cleaning Cloths](https://www.amazon.com/MR-SIGA-Microfiber-Cleaning-Pack-12-Size/dp/B07XP4GK8J)
 
 ## Descaling: The Essential Deep Clean
 
@@ -308,12 +308,12 @@ Burr grinders use two abrading surfaces to crush coffee beans to a specific size
 ## Recommended Grinders by Price Range
 
 ### Entry-Level ($200-400)
-- [1Zpresso JX-Pro Manual Grinder](https://www.amazon.com/1Zpresso-JX-PRO-Adjustment-Stainless-Capacity/dp/B08QTXNV5B)
-- [Baratza Sette 270](https://www.amazon.com/Baratza-Sette-270-Conical-Grinder/dp/B01KG9GBEC)
+- [Baratza Encore Conical Burr Grinder](https://www.amazon.com/Baratza-Encore-Conical-Coffee-Grinder/dp/B007F183LK)
+- [Fellow Ode Brew Grinder](https://www.amazon.com/Fellow-Electric-Brewing-Stainless-Warranty/dp/B08FSCPZ64)
 
 ### Mid-Range ($400-800)
-- [Eureka Mignon Specialita](https://www.amazon.com/Eureka-Mignon-Specialita-Espresso-Grinder/dp/B07ZB6VR1X)
-- [Niche Zero](https://www.nichecoffee.co.uk/)
+- [Eureka Mignon Silenzio](https://www.amazon.com/Eureka-Mignon-Silenzio-Coffee-Grinder/dp/B07P6FQPQ7)
+- [DF64 Single Dose Grinder](https://www.amazon.com/Turin-Single-Espresso-Grinder-Standard/dp/B096KYFJ62)
 
 ### High-End ($800-1500)
 - Eureka Atom
@@ -335,9 +335,9 @@ Burr grinders use two abrading surfaces to crush coffee beans to a specific size
 
 Before beginning the dialing-in process, ensure you have:
 
-- [Precision Scale](https://www.amazon.com/Timemore-Digital-Scale-Timer-Scales/dp/B07SJTXGN7)
-- [Distribution Tool](https://www.amazon.com/Distributors-Distribution-Professional-Portafilter-MATOW/dp/B083LYKL8B)
-- [Calibrated Tamper](https://www.amazon.com/Espresso-Tamper-Calibrated-Pressure-Stainless/dp/B07KN9J3NP)
+- [Timemore Black Mirror Basic Scale](https://www.amazon.com/TIMEMORE-Electronic-Precision-Sensors-Battery/dp/B094XKJVGH)
+- [Normcore V4 Distribution Tool](https://www.amazon.com/Normcore-Distribution-Professional-Portafilter-MATOW/dp/B09KZQZ5YM)
+- [Normcore Spring-Loaded Tamper](https://www.amazon.com/Normcore-Calibrated-Spring-Loaded-Portafilter-Professional/dp/B09B7HNXPX)
 - A quality burr grinder
 - A clean, properly maintained espresso machine
 - Fresh coffee (ideally 7-21 days off roast for espresso)
