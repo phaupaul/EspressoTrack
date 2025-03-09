@@ -47,23 +47,29 @@ export default function Landing() {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled ? "bg-white/80 backdrop-blur-sm shadow-sm" : ""
       }`}>
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Coffee className="h-8 w-8 text-amber-600" />
             <span className="text-2xl font-black bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">
               EspressoTrack
             </span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Button 
               variant="ghost" 
               onClick={() => navigate("/blog")}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 px-2 sm:px-4"
+              size="sm"
             >
               <BookOpen className="h-4 w-4" />
-              Blog
+              <span className="hidden sm:inline">Blog</span>
             </Button>
-            <Button onClick={() => navigate("/auth")} variant="default">
+            <Button 
+              onClick={() => navigate("/auth")} 
+              variant="default"
+              size="sm"
+              className="sm:size-default"
+            >
               Get Started
             </Button>
           </div>
