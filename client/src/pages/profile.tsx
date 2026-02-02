@@ -113,10 +113,12 @@ export default function Profile() {
   };
 
   return (
-    <div className="container mx-auto max-w-2xl p-8">
-      <h1 className="text-3xl font-bold mb-8">
-        {id ? "Edit Profile" : "New Profile"}
-      </h1>
+    <div className="min-h-screen animated-gradient py-8">
+      <div className="container mx-auto max-w-2xl px-4">
+        <div className="glass-dark rounded-3xl p-8 shadow-lg">
+          <h1 className="text-3xl font-bold mb-8 text-slate-800">
+            {id ? "Edit Profile" : "New Profile"}
+          </h1>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -125,9 +127,9 @@ export default function Profile() {
             name="brand"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Brand <span className="text-red-500">*</span></FormLabel>
+                <FormLabel className="text-slate-700 font-semibold">Brand <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter coffee brand" />
+                  <Input {...field} placeholder="Enter coffee brand" className="glass border-2 border-slate-200 focus:border-slate-400 rounded-2xl bg-white h-11" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,9 +141,9 @@ export default function Profile() {
             name="product"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Product <span className="text-red-500">*</span></FormLabel>
+                <FormLabel className="text-slate-700 font-semibold">Product <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter coffee product name" />
+                  <Input {...field} placeholder="Enter coffee product name" className="glass border-2 border-slate-200 focus:border-slate-400 rounded-2xl bg-white h-11" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,17 +155,17 @@ export default function Profile() {
             name="roast"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Roast <span className="text-red-500">*</span></FormLabel>
+                <FormLabel className="text-slate-700 font-semibold">Roast <span className="text-red-500">*</span></FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="glass border-2 border-slate-200 focus:border-slate-400 rounded-2xl bg-white h-11">
                       <SelectValue placeholder="Select roast level" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="glass-dark rounded-2xl">
                     {roastOptions.map((roast) => (
                       <SelectItem key={roast} value={roast}>
                         {roast}
@@ -181,8 +183,8 @@ export default function Profile() {
             name="grinderSetting"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grinder Setting (1-16)</FormLabel>
-                <div className="space-y-2">
+                <FormLabel className="text-slate-700 font-semibold">Grinder Setting (1-16)</FormLabel>
+                <div className="space-y-3 glass rounded-2xl p-4 border border-slate-200">
                   <FormControl>
                     <Slider
                       min={1}
@@ -192,7 +194,7 @@ export default function Profile() {
                       onValueChange={([value]) => field.onChange(value)}
                     />
                   </FormControl>
-                  <div className="text-sm text-muted-foreground text-right">
+                  <div className="text-sm font-semibold text-slate-700 text-right bg-slate-100 px-3 py-1 rounded-xl inline-block float-right">
                     Current setting: {field.value || 8}
                   </div>
                 </div>
@@ -206,8 +208,8 @@ export default function Profile() {
             name="grindAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grind Dial Setting (1-100)</FormLabel>
-                <div className="space-y-2">
+                <FormLabel className="text-slate-700 font-semibold">Grind Dial Setting (1-100)</FormLabel>
+                <div className="space-y-3 glass rounded-2xl p-4 border border-slate-200">
                   <FormControl>
                     <Slider
                       min={1}
@@ -217,7 +219,7 @@ export default function Profile() {
                       onValueChange={([value]) => field.onChange(value)}
                     />
                   </FormControl>
-                  <div className="text-sm text-muted-foreground text-right">
+                  <div className="text-sm font-semibold text-slate-700 text-right bg-slate-100 px-3 py-1 rounded-xl inline-block float-right">
                     Current setting: {field.value || 50}
                   </div>
                 </div>
@@ -231,8 +233,8 @@ export default function Profile() {
             name="grindAmountGrams"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Grind Amount (0-25g)</FormLabel>
-                <div className="space-y-2">
+                <FormLabel className="text-slate-700 font-semibold">Grind Amount (0-25g)</FormLabel>
+                <div className="space-y-3 glass rounded-2xl p-4 border border-slate-200">
                   <FormControl>
                     <Slider
                       min={0}
@@ -242,7 +244,7 @@ export default function Profile() {
                       onValueChange={([value]) => field.onChange(value)}
                     />
                   </FormControl>
-                  <div className="text-sm text-muted-foreground text-right">
+                  <div className="text-sm font-semibold text-slate-700 text-right bg-slate-100 px-3 py-1 rounded-xl inline-block float-right">
                     Current amount: {field.value || 18}g
                   </div>
                 </div>
@@ -445,6 +447,7 @@ export default function Profile() {
             <Button
               type="submit"
               disabled={createMutation.isPending || updateMutation.isPending}
+              className="bg-slate-800 hover:bg-slate-900 text-white rounded-2xl shadow-md hover:shadow-lg transition-all"
             >
               {id ? "Update" : "Create"} Profile
             </Button>
@@ -452,12 +455,15 @@ export default function Profile() {
               type="button"
               variant="outline"
               onClick={() => navigate("/")}
+              className="glass border-2 border-slate-200 hover:border-slate-300 hover:bg-white rounded-2xl text-slate-700"
             >
               Cancel
             </Button>
           </div>
         </form>
       </Form>
+        </div>
+      </div>
     </div>
   );
 }

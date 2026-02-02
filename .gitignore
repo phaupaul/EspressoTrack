@@ -1,6 +1,13 @@
 node_modules
 dist
+.env
 .DS_Store
-server/public
-vite.config.ts.*
-*.tar.gz
+*.log
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.local
+.config
+migrations
