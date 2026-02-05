@@ -52,32 +52,47 @@ export default function Profile() {
     defaultValues: {
       brand: "",
       product: "",
-      roast: "Medium",
+      roast: "Medium" as const,
       grinderSetting: 8,
       grindAmount: 50,
       grindAmountGrams: 18,
-      rating: undefined,
+      rating: null as number | null,
       advancedFeedback: false,
-      appearance: undefined,
-      aroma: undefined,
-      taste: undefined,
-      body: undefined,
-      aftertaste: undefined,
-      extractionTime: undefined,
+      appearance: null as string | null,
+      aroma: null as string | null,
+      taste: null as string | null,
+      body: null as string | null,
+      aftertaste: null as string | null,
+      extractionTime: null as string | null,
     },
   });
 
   // Update form values when profile data is loaded
   useEffect(() => {
     if (profile) {
-      form.reset(profile);
+      form.reset({
+        brand: profile.brand,
+        product: profile.product,
+        roast: profile.roast as any,
+        grinderSetting: profile.grinderSetting,
+        grindAmount: profile.grindAmount,
+        grindAmountGrams: profile.grindAmountGrams,
+        rating: profile.rating as any,
+        advancedFeedback: profile.advancedFeedback as any,
+        appearance: profile.appearance as any,
+        aroma: profile.aroma as any,
+        taste: profile.taste as any,
+        body: profile.body as any,
+        aftertaste: profile.aftertaste as any,
+        extractionTime: profile.extractionTime as any,
+      });
     }
   }, [profile, form]);
 
   const advancedFeedbackEnabled = form.watch("advancedFeedback");
 
   const createMutation = useMutation({
-    mutationFn: async (data: typeof form.getValues) => {
+    mutationFn: async (data: any) => {
       const res = await apiRequest("POST", "/api/profiles", data);
       return res.json();
     },
@@ -89,7 +104,7 @@ export default function Profile() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: typeof form.getValues) => {
+    mutationFn: async (data: any) => {
       const res = await apiRequest("PATCH", `/api/profiles/${id}`, data);
       return res.json();
     },
@@ -104,7 +119,7 @@ export default function Profile() {
     return <div className="container mx-auto p-8">Loading...</div>;
   }
 
-  const onSubmit = (data: typeof form.getValues) => {
+  const onSubmit = (data: any) => {
     if (id) {
       updateMutation.mutate(data);
     } else {
@@ -296,7 +311,7 @@ export default function Profile() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Appearance</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select appearance" />
@@ -321,7 +336,7 @@ export default function Profile() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Aroma</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select aroma" />
@@ -346,7 +361,7 @@ export default function Profile() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Taste</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select taste" />
@@ -371,7 +386,7 @@ export default function Profile() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Body</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select body" />
@@ -396,7 +411,7 @@ export default function Profile() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Aftertaste</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select aftertaste" />
@@ -421,7 +436,7 @@ export default function Profile() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Extraction Time</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select extraction time" />
