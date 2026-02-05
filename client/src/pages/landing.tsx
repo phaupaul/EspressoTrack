@@ -43,14 +43,19 @@ export default function Landing() {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+    <div className="min-h-screen animated-gradient">
       <nav className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/80 backdrop-blur-sm shadow-sm" : ""
+        scrolled ? "glass-dark shadow-lg" : ""
       }`}>
         <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Coffee className="h-8 w-8 text-amber-600" />
-            <span className="text-2xl font-black bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">
+            <div className="relative">
+              <div className="absolute inset-0 bg-slate-200 rounded-xl blur-md opacity-40"></div>
+              <div className="relative p-2 bg-slate-800 rounded-xl">
+                <Coffee className="h-6 w-6 text-white" />
+              </div>
+            </div>
+            <span className="text-2xl font-black text-slate-800">
               EspressoTrack
             </span>
           </div>
@@ -58,7 +63,7 @@ export default function Landing() {
             <Button 
               variant="ghost" 
               onClick={() => navigate("/blog")}
-              className="flex items-center gap-2 px-2 sm:px-4"
+              className="flex items-center gap-2 px-2 sm:px-4 text-slate-700 hover:text-slate-900 hover:bg-white/50"
               size="sm"
             >
               <BookOpen className="h-4 w-4" />
@@ -66,9 +71,8 @@ export default function Landing() {
             </Button>
             <Button 
               onClick={() => navigate("/auth")} 
-              variant="default"
+              className="bg-slate-800 hover:bg-slate-900 text-white rounded-2xl shadow-lg"
               size="sm"
-              className="sm:size-default"
             >
               Get Started
             </Button>
@@ -83,13 +87,13 @@ export default function Landing() {
           transition={{ duration: 0.6 }}
           className="container mx-auto px-4 text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6 text-slate-800">
             Perfect Your
-            <span className="bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">
+            <span className="text-slate-900">
               {" "}Espresso Game
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
             Track, analyze, and improve your espresso shots with detailed profiles and expert feedback.
           </p>
           <motion.div
@@ -100,7 +104,7 @@ export default function Landing() {
             <Button
               size="lg"
               onClick={() => navigate("/auth")}
-              className="bg-gradient-to-r from-amber-600 to-amber-800 hover:from-amber-700 hover:to-amber-900"
+              className="bg-slate-800 hover:bg-slate-900 text-white rounded-2xl shadow-lg px-8 py-6 text-lg"
             >
               Start Tracking Your Shots
             </Button>
@@ -120,11 +124,16 @@ export default function Landing() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 + index * 0.1 }}
-                className="bg-white/50 backdrop-blur-sm rounded-lg p-6 shadow-lg"
+                className="glass-dark rounded-3xl p-6 shadow-lg hover:shadow-xl transition-shadow"
               >
-                <feature.icon className="h-12 w-12 text-amber-600 mb-4" />
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+                <div className="relative inline-block mb-4">
+                  <div className="absolute inset-0 bg-slate-200 rounded-xl blur-md opacity-40"></div>
+                  <div className="relative p-3 bg-slate-800 rounded-xl">
+                    <feature.icon className="h-8 w-8 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-slate-800">{feature.title}</h3>
+                <p className="text-slate-600">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -136,18 +145,17 @@ export default function Landing() {
           transition={{ delay: 1.2 }}
           className="container mx-auto px-4 mt-24 text-center"
         >
-          <div className="bg-gradient-to-br from-amber-600 to-amber-800 text-white rounded-2xl p-8 md:p-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="glass-dark rounded-3xl p-8 md:p-12 shadow-xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-800">
               Ready to elevate your espresso?
             </h2>
-            <p className="text-amber-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
               Join a community of coffee enthusiasts and start your journey to the perfect shot.
             </p>
             <Button
-              variant="outline"
               size="lg"
               onClick={() => navigate("/auth")}
-              className="bg-white text-amber-800 hover:bg-amber-50"
+              className="bg-slate-800 hover:bg-slate-900 text-white rounded-2xl shadow-lg px-8 py-6 text-lg"
             >
               Create Free Account
             </Button>
