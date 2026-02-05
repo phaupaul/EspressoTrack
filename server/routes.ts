@@ -1,5 +1,4 @@
 import type { Express, Request, Response, NextFunction } from "express";
-import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProfileSchema, insertSettingsSchema, users, profiles } from "@shared/schema";
 import { setupAuth } from "./auth";
@@ -13,7 +12,7 @@ function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
   res.status(401).json({ message: "Unauthorized" });
 }
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export function registerRoutes(app: Express): void {
   // Set up authentication routes
   setupAuth(app);
 
@@ -107,6 +106,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to delete account" });
     }
   });
-
-  return createServer(app);
 }
