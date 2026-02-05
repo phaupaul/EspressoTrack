@@ -62,12 +62,12 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 animated-gradient">
       <div className="flex items-center justify-center p-8">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md glass-dark border-slate-200 shadow-xl rounded-3xl">
           <CardHeader>
-            <CardTitle>{isLogin ? "Welcome Back" : "Create Account"}</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-slate-800">{isLogin ? "Welcome Back" : "Create Account"}</CardTitle>
+            <CardDescription className="text-slate-600">
               {isLogin
                 ? "Sign in to access your coffee profiles"
                 : "Sign up to start tracking your coffee profiles"}
@@ -81,9 +81,13 @@ export default function AuthPage() {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel className="text-slate-700">Username</FormLabel>
                       <FormControl>
-                        <Input {...field} autoComplete="username" />
+                        <Input 
+                          {...field} 
+                          autoComplete="username"
+                          className="bg-white border-slate-200 rounded-2xl text-slate-800 text-lg h-12"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -95,12 +99,13 @@ export default function AuthPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className="text-slate-700">Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
                           {...field}
                           autoComplete={isLogin ? "current-password" : "new-password"}
+                          className="bg-white border-slate-200 rounded-2xl text-slate-800 text-lg h-12"
                         />
                       </FormControl>
                       <FormMessage />
@@ -111,7 +116,7 @@ export default function AuthPage() {
                 <div className="space-y-2">
                   <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full bg-slate-800 hover:bg-slate-900 text-white rounded-2xl h-12 shadow-lg"
                     disabled={loginMutation.isPending || registerMutation.isPending}
                   >
                     {isLogin ? "Sign In" : "Sign Up"}
@@ -119,7 +124,7 @@ export default function AuthPage() {
                   <Button
                     type="button"
                     variant="ghost"
-                    className="w-full"
+                    className="w-full text-slate-600 hover:text-slate-800 hover:bg-white/50 rounded-2xl"
                     onClick={() => setIsLogin(!isLogin)}
                   >
                     {isLogin ? "Need an account?" : "Already have an account?"}
@@ -131,11 +136,16 @@ export default function AuthPage() {
         </Card>
       </div>
 
-      <div className="hidden md:flex flex-col items-center justify-center p-8 bg-gradient-to-br from-amber-600 to-amber-800 text-white">
+      <div className="hidden md:flex flex-col items-center justify-center p-8 glass-dark">
         <div className="text-center">
-          <Coffee className="h-16 w-16 mb-4 mx-auto" />
-          <h1 className="text-4xl font-black mb-4">EspressoTrack</h1>
-          <p className="text-xl text-amber-100 max-w-md">
+          <div className="relative inline-block mb-6">
+            <div className="absolute inset-0 bg-slate-200 rounded-3xl blur-xl opacity-40 float-animation"></div>
+            <div className="relative p-4 bg-slate-800 rounded-3xl shadow-xl">
+              <Coffee className="h-16 w-16 text-white" />
+            </div>
+          </div>
+          <h1 className="text-4xl font-black mb-4 text-slate-800">EspressoTrack</h1>
+          <p className="text-xl text-slate-600 max-w-md">
             Your personal coffee brewing companion. Track, optimize, and perfect your espresso shots with detailed profiles and ratings.
           </p>
         </div>
