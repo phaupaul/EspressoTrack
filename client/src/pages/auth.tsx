@@ -4,14 +4,13 @@ import { useAuth } from "@/hooks/use-auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertUserSchema } from "@shared/schema";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -34,7 +33,7 @@ export default function AuthPage() {
   const { loginMutation, registerMutation, user } = useAuth();
 
   const form = useForm<FormData>({
-    resolver: zodResolver(insertUserSchema),
+    resolver: zodResolver(isLogin ? loginSchema : insertUserSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -42,7 +41,6 @@ export default function AuthPage() {
   });
 
   useEffect(() => {
-    // Redirect if already logged in
     if (user) {
       navigate("/dashboard");
     }
@@ -62,31 +60,38 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 animated-gradient">
-      <div className="flex items-center justify-center p-8">
-        <Card className="w-full max-w-md glass-dark border-slate-200 shadow-xl rounded-3xl">
-          <CardHeader>
-            <CardTitle className="text-slate-800">{isLogin ? "Welcome Back" : "Create Account"}</CardTitle>
-            <CardDescription className="text-slate-600">
-              {isLogin
-                ? "Sign in to access your coffee profiles"
-                : "Sign up to start tracking your coffee profiles"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative" style={{ background: 'var(--espresso-bg)' }}>
+      <div className="noise-overlay" />
+
+      {/* Form side */}
+      <div className="flex items-center justify-center p-8 relative z-10">
+        <div className="w-full max-w-md">
+          <div className="surface-elevated rounded-2xl p-8">
+            <div className="mb-6">
+              <h2 className="text-3xl text-[var(--espresso-cream)] mb-1">
+                {isLogin ? "Welcome back" : "Create account"}
+              </h2>
+              <p className="text-[var(--espresso-muted)] text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                {isLogin
+                  ? "Sign in to access your coffee profiles"
+                  : "Sign up to start tracking your coffee profiles"}
+              </p>
+            </div>
+
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <FormField
                   control={form.control}
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Username</FormLabel>
+                      <FormLabel className="text-[var(--espresso-cream-dim)] text-sm font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>Username</FormLabel>
                       <FormControl>
-                        <Input 
-                          {...field} 
+                        <Input
+                          {...field}
                           autoComplete="username"
-                          className="bg-white border-slate-200 rounded-2xl text-slate-800 text-lg h-12"
+                          className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-base focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)] placeholder:text-[var(--espresso-muted)]"
+                          placeholder="Enter username"
                         />
                       </FormControl>
                       <FormMessage />
@@ -99,13 +104,14 @@ export default function AuthPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700">Password</FormLabel>
+                      <FormLabel className="text-[var(--espresso-cream-dim)] text-sm font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
                           {...field}
                           autoComplete={isLogin ? "current-password" : "new-password"}
-                          className="bg-white border-slate-200 rounded-2xl text-slate-800 text-lg h-12"
+                          className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-base focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)] placeholder:text-[var(--espresso-muted)]"
+                          placeholder="Enter password"
                         />
                       </FormControl>
                       <FormMessage />
@@ -113,10 +119,10 @@ export default function AuthPage() {
                   )}
                 />
 
-                <div className="space-y-2">
+                <div className="space-y-3 pt-2">
                   <Button
                     type="submit"
-                    className="w-full bg-slate-800 hover:bg-slate-900 text-white rounded-2xl h-12 shadow-lg"
+                    className="w-full bg-[var(--espresso-amber)] hover:bg-[var(--espresso-amber-hover)] text-[var(--espresso-bg)] font-semibold rounded-lg h-12"
                     disabled={loginMutation.isPending || registerMutation.isPending}
                   >
                     {isLogin ? "Sign In" : "Sign Up"}
@@ -124,7 +130,7 @@ export default function AuthPage() {
                   <Button
                     type="button"
                     variant="ghost"
-                    className="w-full text-slate-600 hover:text-slate-800 hover:bg-white/50 rounded-2xl"
+                    className="w-full text-[var(--espresso-muted)] hover:text-[var(--espresso-cream)] hover:bg-transparent rounded-lg"
                     onClick={() => setIsLogin(!isLogin)}
                   >
                     {isLogin ? "Need an account?" : "Already have an account?"}
@@ -132,21 +138,22 @@ export default function AuthPage() {
                 </div>
               </form>
             </Form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <div className="hidden md:flex flex-col items-center justify-center p-8 glass-dark">
-        <div className="text-center">
-          <div className="relative inline-block mb-6">
-            <div className="absolute inset-0 bg-slate-200 rounded-3xl blur-xl opacity-40 float-animation"></div>
-            <div className="relative p-4 bg-slate-800 rounded-3xl shadow-xl">
-              <Coffee className="h-16 w-16 text-white" />
-            </div>
+      {/* Branding side */}
+      <div className="hidden md:flex flex-col items-center justify-center p-8 relative" style={{ background: 'var(--espresso-surface)' }}>
+        <div className="warm-gradient-radial absolute inset-0" />
+        <div className="text-center relative z-10">
+          <div className="w-20 h-20 rounded-2xl bg-[var(--espresso-amber)] flex items-center justify-center mx-auto mb-8 glow-amber-strong">
+            <Coffee className="h-10 w-10 text-[var(--espresso-bg)]" />
           </div>
-          <h1 className="text-4xl font-black mb-4 text-slate-800">EspressoTrack</h1>
-          <p className="text-xl text-slate-600 max-w-md">
-            Your personal coffee brewing companion. Track, optimize, and perfect your espresso shots with detailed profiles and ratings.
+          <h1 className="text-5xl mb-4 text-[var(--espresso-cream)]">
+            EspressoTrack
+          </h1>
+          <p className="text-lg text-[var(--espresso-muted)] max-w-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            Your personal coffee brewing companion. Track, optimize, and perfect your espresso shots.
           </p>
         </div>
       </div>

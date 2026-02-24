@@ -389,34 +389,37 @@ Once you've reached your target parameters, assess the quality:
 
 export default function Blog() {
   return (
-    <div className="min-h-screen animated-gradient">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen relative" style={{ background: 'var(--espresso-bg)' }}>
+      <div className="noise-overlay" />
+      <div className="warm-gradient-radial fixed inset-0 pointer-events-none" />
+
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="flex items-center gap-4 mb-8">
           <Link href="/">
-            <Button variant="ghost" className="flex items-center gap-2 text-slate-700 hover:text-slate-900 hover:bg-white/50 rounded-2xl">
+            <Button variant="ghost" className="flex items-center gap-2 text-[var(--espresso-cream-dim)] hover:text-[var(--espresso-cream)] hover:bg-[rgba(200,149,108,0.08)] rounded-lg">
               <ArrowLeft className="h-4 w-4" />
               Back to Home
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-slate-800">EspressoTrack Blog</h1>
+          <h1 className="text-3xl text-[var(--espresso-cream)]">EspressoTrack Blog</h1>
         </div>
 
         <div className="grid gap-6">
           {blogPosts.map((post) => (
-            <Card key={post.id} className="glass-dark rounded-3xl border-slate-200 hover:shadow-xl transition-shadow">
+            <Card key={post.id} className="surface-card rounded-xl border-0 accent-line">
               <CardHeader>
-                <CardTitle className="text-2xl text-slate-800">{post.title}</CardTitle>
-                <CardDescription className="text-lg text-slate-600">
+                <CardTitle className="text-2xl text-[var(--espresso-cream)]">{post.title}</CardTitle>
+                <CardDescription className="text-base text-[var(--espresso-muted)]">
                   {post.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="prose prose-slate max-w-none">
-                  <p className="text-slate-600 mb-4">
+                <div>
+                  <p className="text-[var(--espresso-cream-dim)] mb-4 text-sm leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                     {post.content.split('\n')[0]}
                   </p>
                   <Link href={`/blog/${post.id}`}>
-                    <Button variant="outline" className="flex items-center gap-2 border-slate-200 hover:bg-white rounded-2xl text-slate-700">
+                    <Button variant="outline" className="flex items-center gap-2 border-[var(--espresso-border-strong)] text-[var(--espresso-cream-dim)] hover:text-[var(--espresso-cream)] hover:bg-[rgba(200,149,108,0.08)] hover:border-[var(--espresso-amber)] rounded-lg bg-transparent">
                       Read More
                       <ArrowRight className="h-4 w-4" />
                     </Button>

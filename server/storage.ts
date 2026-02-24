@@ -8,7 +8,7 @@ import { pool } from "./db";
 const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
-  getProfiles(): Promise<Profile[]>;
+  getProfilesByUser(userId: number): Promise<Profile[]>;
   getProfile(id: number): Promise<Profile | undefined>;
   createProfile(userId: number, profile: InsertProfile): Promise<Profile>;
   updateProfile(id: number, profile: Partial<InsertProfile>): Promise<Profile | undefined>;
@@ -31,8 +31,8 @@ export class DatabaseStorage implements IStorage {
     });
   }
 
-  async getProfiles(): Promise<Profile[]> {
-    return await db.select().from(profiles);
+  async getProfilesByUser(userId: number): Promise<Profile[]> {
+    return await db.select().from(profiles).where(eq(profiles.userId, userId));
   }
 
   async getProfile(id: number): Promise<Profile | undefined> {

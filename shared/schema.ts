@@ -93,7 +93,7 @@ export const insertProfileSchema = createInsertSchema(profiles)
     grinderSetting: z.number().min(1).max(16),
     grindAmount: z.number().min(1).max(100),
     grindAmountGrams: z.number().min(0).max(25),
-    rating: z.number().min(1).max(5).optional(),
+    rating: z.number().min(1).max(5).nullable().optional(),
     // Make advanced feedback fields optional
     advancedFeedback: z.boolean().optional(),
     appearance: z.enum(appearanceOptions).optional(),

@@ -10,12 +10,13 @@ interface SearchBarProps {
 export default function SearchBar({ value, onChange, className }: SearchBarProps) {
   return (
     <div className={`relative ${className}`}>
-      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[var(--espresso-muted)] h-5 w-5" />
       <Input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="pl-12 h-14 glass-dark border-2 border-slate-200 focus:border-slate-400 rounded-2xl text-slate-700 placeholder:text-slate-400 font-medium text-base shadow-sm"
+        className="pl-12 h-13 bg-[var(--espresso-surface)] border-[var(--espresso-border-strong)] text-[var(--espresso-cream)] rounded-lg placeholder:text-[var(--espresso-muted)] font-medium text-base focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
         placeholder="Search profiles by brand, product, or roast..."
+        style={{ fontFamily: "'DM Sans', sans-serif" }}
       />
     </div>
   );

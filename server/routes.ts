@@ -18,9 +18,7 @@ export function registerRoutes(app: Express): void {
 
   // Protected routes
   app.get("/api/profiles", ensureAuthenticated, async (req, res) => {
-    const profiles = await storage.getProfiles();
-    // Only return profiles belonging to the current user
-    const userProfiles = profiles.filter(p => p.userId === req.user!.id);
+    const userProfiles = await storage.getProfilesByUser(req.user!.id);
     res.json(userProfiles);
   });
 

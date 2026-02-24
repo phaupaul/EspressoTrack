@@ -5,7 +5,7 @@ import { insertSettingsSchema, type Settings, type InsertSettings } from "@share
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { Settings as SettingsIcon, Trash2 } from "lucide-react";
+import { Settings as SettingsIcon, Trash2, ArrowLeft } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -69,7 +68,6 @@ export default function Settings() {
       await apiRequest("DELETE", "/api/user");
     },
     onSuccess: () => {
-      // Clear the user data from cache
       queryClient.setQueryData(["/api/user"], null);
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       toast({ title: "Account deleted successfully" });
@@ -85,7 +83,11 @@ export default function Settings() {
   });
 
   if (isLoading) {
-    return <div className="container mx-auto p-8">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--espresso-bg)' }}>
+        <p className="text-[var(--espresso-muted)]">Loading...</p>
+      </div>
+    );
   }
 
   const onSubmit = (data: InsertSettings) => {
@@ -105,70 +107,77 @@ export default function Settings() {
     setShowDeleteDialog(false);
   };
 
+  const sansFont = { fontFamily: "'DM Sans', sans-serif" };
+
   return (
-    <div className="min-h-screen animated-gradient py-8">
-      <div className="container mx-auto max-w-3xl px-4 space-y-6">
+    <div className="min-h-screen relative" style={{ background: 'var(--espresso-bg)' }}>
+      <div className="noise-overlay" />
+      <div className="warm-gradient-radial fixed inset-0 pointer-events-none" />
+
+      <div className="container mx-auto max-w-3xl px-4 py-8 relative z-10 space-y-6">
         {/* Back button */}
         <Button
           variant="ghost"
           onClick={() => navigate("/")}
-          className="glass border border-slate-200 hover:bg-white mb-4 rounded-2xl text-slate-700"
+          className="text-[var(--espresso-cream-dim)] hover:text-[var(--espresso-cream)] hover:bg-[rgba(200,149,108,0.08)] rounded-lg -ml-2"
         >
-          ← Back to Dashboard
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Dashboard
         </Button>
 
         {/* Settings Card */}
-        <Card className="glass-dark border-0 rounded-3xl shadow-lg overflow-hidden">
-          <CardHeader className="bg-slate-50/50 border-b border-slate-200">
-            <CardTitle className="text-3xl font-bold text-slate-800 flex items-center gap-3">
-              <div className="p-2 bg-slate-800 rounded-2xl">
-                <SettingsIcon className="h-6 w-6 text-white" />
+        <div className="surface-elevated rounded-xl overflow-hidden">
+          <div className="p-6 border-b border-[var(--espresso-border)]">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-[var(--espresso-amber)] flex items-center justify-center">
+                <SettingsIcon className="h-5 w-5 text-[var(--espresso-bg)]" />
               </div>
-              Equipment Settings
-            </CardTitle>
-            <p className="text-slate-600 mt-2">Configure your grinder and dosage ranges</p>
-          </CardHeader>
-          <CardContent className="p-8">
+              <div>
+                <h1 className="text-2xl text-[var(--espresso-cream)]">Equipment Settings</h1>
+                <p className="text-sm text-[var(--espresso-muted)]" style={sansFont}>Configure your grinder and dosage ranges</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                {/* Grinder Settings Section */}
-                <div className="glass rounded-3xl p-6 border border-slate-200">
-                  <h3 className="text-lg font-bold text-slate-700 mb-6 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-slate-400"></div>
+                {/* Grinder Settings */}
+                <div className="rounded-lg bg-[var(--espresso-surface)] p-5 border border-[var(--espresso-border)]">
+                  <h3 className="text-sm font-semibold text-[var(--espresso-amber)] uppercase tracking-wider mb-5" style={sansFont}>
                     Grinder Settings Range
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="grinderSettingMin"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-semibold">Minimum Setting</FormLabel>
+                          <FormLabel className="text-[var(--espresso-cream-dim)] text-sm" style={sansFont}>Minimum Setting</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="number" 
-                              {...field} 
+                            <Input
+                              type="number"
+                              {...field}
                               onChange={e => field.onChange(Number(e.target.value))}
-                              className="glass border-2 border-slate-200 focus:border-slate-400 text-slate-800 font-semibold text-lg h-12 rounded-2xl bg-white"
+                              className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-lg font-semibold focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={form.control}
                       name="grinderSettingMax"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-semibold">Maximum Setting</FormLabel>
+                          <FormLabel className="text-[var(--espresso-cream-dim)] text-sm" style={sansFont}>Maximum Setting</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="number" 
-                              {...field} 
+                            <Input
+                              type="number"
+                              {...field}
                               onChange={e => field.onChange(Number(e.target.value))}
-                              className="glass border-2 border-slate-200 focus:border-slate-400 text-slate-800 font-semibold text-lg h-12 rounded-2xl bg-white"
+                              className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-lg font-semibold focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
                             />
                           </FormControl>
                           <FormMessage />
@@ -178,44 +187,42 @@ export default function Settings() {
                   </div>
                 </div>
 
-                {/* Dial Settings Section */}
-                <div className="glass rounded-3xl p-6 border border-slate-200">
-                  <h3 className="text-lg font-bold text-slate-700 mb-6 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-slate-400"></div>
+                {/* Dial Settings */}
+                <div className="rounded-lg bg-[var(--espresso-surface)] p-5 border border-[var(--espresso-border)]">
+                  <h3 className="text-sm font-semibold text-[var(--espresso-amber)] uppercase tracking-wider mb-5" style={sansFont}>
                     Dial Settings Range
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="dialSettingMin"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-semibold">Minimum Dial</FormLabel>
+                          <FormLabel className="text-[var(--espresso-cream-dim)] text-sm" style={sansFont}>Minimum Dial</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="number" 
-                              {...field} 
+                            <Input
+                              type="number"
+                              {...field}
                               onChange={e => field.onChange(Number(e.target.value))}
-                              className="glass border-2 border-slate-200 focus:border-slate-400 text-slate-800 font-semibold text-lg h-12 rounded-2xl bg-white"
+                              className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-lg font-semibold focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={form.control}
                       name="dialSettingMax"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-semibold">Maximum Dial</FormLabel>
+                          <FormLabel className="text-[var(--espresso-cream-dim)] text-sm" style={sansFont}>Maximum Dial</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="number" 
-                              {...field} 
+                            <Input
+                              type="number"
+                              {...field}
                               onChange={e => field.onChange(Number(e.target.value))}
-                              className="glass border-2 border-slate-200 focus:border-slate-400 text-slate-800 font-semibold text-lg h-12 rounded-2xl bg-white"
+                              className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-lg font-semibold focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
                             />
                           </FormControl>
                           <FormMessage />
@@ -225,44 +232,42 @@ export default function Settings() {
                   </div>
                 </div>
 
-                {/* Grind Amount Section */}
-                <div className="glass rounded-3xl p-6 border border-slate-200">
-                  <h3 className="text-lg font-bold text-slate-700 mb-6 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-slate-400"></div>
+                {/* Grind Amount */}
+                <div className="rounded-lg bg-[var(--espresso-surface)] p-5 border border-[var(--espresso-border)]">
+                  <h3 className="text-sm font-semibold text-[var(--espresso-amber)] uppercase tracking-wider mb-5" style={sansFont}>
                     Grind Amount Range (grams)
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="grindAmountMin"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-semibold">Minimum Amount</FormLabel>
+                          <FormLabel className="text-[var(--espresso-cream-dim)] text-sm" style={sansFont}>Minimum Amount</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="number" 
-                              {...field} 
+                            <Input
+                              type="number"
+                              {...field}
                               onChange={e => field.onChange(Number(e.target.value))}
-                              className="glass border-2 border-slate-200 focus:border-slate-400 text-slate-800 font-semibold text-lg h-12 rounded-2xl bg-white"
+                              className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-lg font-semibold focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={form.control}
                       name="grindAmountMax"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-semibold">Maximum Amount</FormLabel>
+                          <FormLabel className="text-[var(--espresso-cream-dim)] text-sm" style={sansFont}>Maximum Amount</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="number" 
-                              {...field} 
+                            <Input
+                              type="number"
+                              {...field}
                               onChange={e => field.onChange(Number(e.target.value))}
-                              className="glass border-2 border-slate-200 focus:border-slate-400 text-slate-800 font-semibold text-lg h-12 rounded-2xl bg-white"
+                              className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg h-12 text-lg font-semibold focus:border-[var(--espresso-amber)] focus:ring-1 focus:ring-[var(--espresso-amber)]"
                             />
                           </FormControl>
                           <FormMessage />
@@ -272,12 +277,12 @@ export default function Settings() {
                   </div>
                 </div>
 
-                <div className="flex gap-4 pt-4">
+                <div className="flex gap-4 pt-2">
                   <Button
                     type="submit"
                     disabled={updateMutation.isPending}
                     size="lg"
-                    className="flex-1 bg-slate-800 hover:bg-slate-900 text-white shadow-md hover:shadow-lg transition-all duration-300 h-12 text-base font-semibold rounded-2xl"
+                    className="flex-1 bg-[var(--espresso-amber)] hover:bg-[var(--espresso-amber-hover)] text-[var(--espresso-bg)] font-semibold rounded-lg h-12"
                   >
                     {updateMutation.isPending ? "Saving..." : "Save Settings"}
                   </Button>
@@ -286,62 +291,64 @@ export default function Settings() {
                     variant="outline"
                     onClick={() => navigate("/")}
                     size="lg"
-                    className="glass border-2 border-slate-200 hover:border-slate-300 hover:bg-white h-12 rounded-2xl text-slate-700"
+                    className="border-[var(--espresso-border-strong)] text-[var(--espresso-cream-dim)] hover:text-[var(--espresso-cream)] hover:bg-[rgba(200,149,108,0.08)] hover:border-[var(--espresso-amber)] rounded-lg bg-transparent h-12"
                   >
                     Cancel
                   </Button>
                 </div>
               </form>
             </Form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        {/* Delete Account Section */}
-        <Card className="glass-dark border-2 border-red-200 rounded-3xl shadow-lg overflow-hidden">
-          <CardHeader className="bg-red-50/50 border-b border-red-200">
-            <CardTitle className="text-2xl font-bold text-red-700 flex items-center gap-3">
-              <div className="p-2 bg-red-600 rounded-2xl">
+        {/* Danger Zone */}
+        <div className="surface-elevated rounded-xl overflow-hidden border-[var(--espresso-red)] border-opacity-30" style={{ borderColor: 'rgba(196, 92, 76, 0.3)' }}>
+          <div className="p-6 border-b" style={{ borderColor: 'rgba(196, 92, 76, 0.2)', background: 'rgba(196, 92, 76, 0.05)' }}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-[var(--espresso-red)] flex items-center justify-center">
                 <Trash2 className="h-5 w-5 text-white" />
               </div>
-              Danger Zone
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8">
-            <p className="text-slate-600 mb-6 leading-relaxed">
-              This action cannot be undone. All your coffee profiles and settings will be permanently deleted from our servers.
+              <h2 className="text-2xl text-[var(--espresso-red)]">Danger Zone</h2>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <p className="text-[var(--espresso-muted)] mb-6 leading-relaxed" style={sansFont}>
+              This action cannot be undone. All your coffee profiles and settings will be permanently deleted.
             </p>
             <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
               <AlertDialogTrigger asChild>
-                <Button 
-                  variant="destructive"
+                <Button
+                  className="bg-[var(--espresso-red)] hover:bg-[var(--espresso-red-hover)] text-white font-semibold rounded-lg"
                   size="lg"
-                  className="bg-red-500 hover:bg-red-600 shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl"
                 >
                   <Trash2 className="mr-2 h-5 w-5" />
                   Delete Account
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="glass-dark border-0 rounded-3xl">
+              <AlertDialogContent className="surface-elevated border-[var(--espresso-border-strong)] rounded-xl">
                 <AlertDialogHeader>
-                  <AlertDialogTitle className="text-2xl text-red-700">Delete Account</AlertDialogTitle>
-                  <AlertDialogDescription className="text-slate-600 space-y-4">
-                    <p>This action is permanent and cannot be undone. All your coffee profiles and settings will be deleted.</p>
-                    <div className="mt-4">
-                      <p className="font-semibold text-slate-700 mb-2">Type "delete" to confirm:</p>
-                      <Input
-                        value={deleteConfirmation}
-                        onChange={(e) => setDeleteConfirmation(e.target.value)}
-                        placeholder="Type 'delete' to confirm"
-                        className="glass border-2 border-red-200 focus:border-red-400 text-slate-800 font-semibold rounded-2xl bg-white"
-                      />
+                  <AlertDialogTitle className="text-2xl text-[var(--espresso-red)]">Delete Account</AlertDialogTitle>
+                  <AlertDialogDescription className="text-[var(--espresso-muted)] space-y-4" asChild>
+                    <div>
+                      <p>This action is permanent. All your coffee profiles and settings will be deleted.</p>
+                      <div className="mt-4">
+                        <p className="font-semibold text-[var(--espresso-cream-dim)] mb-2" style={sansFont}>Type "delete" to confirm:</p>
+                        <Input
+                          value={deleteConfirmation}
+                          onChange={(e) => setDeleteConfirmation(e.target.value)}
+                          placeholder="Type 'delete' to confirm"
+                          className="bg-[var(--espresso-input)] border-[var(--espresso-border)] text-[var(--espresso-cream)] rounded-lg focus:border-[var(--espresso-red)] focus:ring-1 focus:ring-[var(--espresso-red)] placeholder:text-[var(--espresso-muted)]"
+                        />
+                      </div>
                     </div>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel className="glass border-2 border-slate-200 rounded-2xl">Cancel</AlertDialogCancel>
+                  <AlertDialogCancel className="border-[var(--espresso-border)] bg-transparent text-[var(--espresso-cream-dim)] hover:bg-[var(--espresso-surface)] rounded-lg">Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleDeleteAccount}
-                    className="bg-red-500 hover:bg-red-600 text-white rounded-2xl"
+                    className="bg-[var(--espresso-red)] hover:bg-[var(--espresso-red-hover)] text-white rounded-lg"
                     disabled={deleteAccountMutation.isPending}
                   >
                     {deleteAccountMutation.isPending ? "Deleting..." : "Delete Account"}
@@ -349,8 +356,8 @@ export default function Settings() {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
