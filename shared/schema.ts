@@ -94,14 +94,14 @@ export const insertProfileSchema = createInsertSchema(profiles)
     grindAmount: z.number().min(1).max(100),
     grindAmountGrams: z.number().min(0).max(25),
     rating: z.number().min(1).max(5).nullable().optional(),
-    // Make advanced feedback fields optional
-    advancedFeedback: z.boolean().optional(),
-    appearance: z.enum(appearanceOptions).optional(),
-    aroma: z.enum(aromaOptions).optional(),
-    taste: z.enum(tasteOptions).optional(),
-    body: z.enum(bodyOptions).optional(),
-    aftertaste: z.enum(aftertasteOptions).optional(),
-    extractionTime: z.enum(extractionTimeOptions).optional(),
+    // Make advanced feedback fields optional and nullable
+    advancedFeedback: z.boolean().nullable().optional(),
+    appearance: z.enum(appearanceOptions).nullable().optional(),
+    aroma: z.enum(aromaOptions).nullable().optional(),
+    taste: z.enum(tasteOptions).nullable().optional(),
+    body: z.enum(bodyOptions).nullable().optional(),
+    aftertaste: z.enum(aftertasteOptions).nullable().optional(),
+    extractionTime: z.enum(extractionTimeOptions).nullable().optional(),
   });
 
 export const insertSettingsSchema = createInsertSchema(settings)
